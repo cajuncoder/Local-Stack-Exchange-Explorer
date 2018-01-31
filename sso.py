@@ -42,11 +42,11 @@ for i in range(len(csvs)):
 valid_input = False
 option = ''
 while not valid_input:
-    option = raw_input()
-    if option == 'q':
+    inpt = raw_input()
+    if inpt == 'q':
         exit()
     try:
-        option = int()
+        option = int(inpt)
         valid_input = True
     except ValueError:
         print('Please select a valid number!')
