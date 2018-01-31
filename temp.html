@@ -1,0 +1,56 @@
+________________________________________________________________________________<br>[QUESTION]: Golang testing: "no test files"
+<p>I'm creating a simple test within my package directory called reverseTest.go</p>
+
+<pre><code>package main
+import "testing"
+
+func TestReverse(t *testing.T) {
+    cases := []struct {
+        in, want string
+    }{
+        {"Hello, world", "dlrow ,olleH"},
+        {"Hello, 世界", "界世 ,olleH"},
+        {"", ""},
+    }
+    for _, c := range cases {
+    got := Reverse(c.in)
+    if got != c.want {
+        t.Errorf("Reverse(%q) == %q, want %q", c.in, got, c.want)
+    }
+}
+}
+</code></pre>
+
+<p>whenever i try to run it the output is</p>
+
+<pre><code>exampleFolder[no test files] 
+</code></pre>
+
+<p>this is my go env</p>
+
+<pre><code>GOARCH="amd64"
+GOBIN=""
+GOCHAR="6"
+GOEXE=""
+GOHOSTARCH="amd64"
+GOHOSTOS="linux"
+GOOS="linux"
+GOPATH="/home/juan/go"
+GORACE=""
+GOROOT="/usr/lib/go"
+GOTOOLDIR="/usr/lib/go/pkg/tool/linux_amd64"
+TERM="dumb"
+CC="gcc"
+GOGCCFLAGS="-g -O2 -fPIC -m64 -pthread"
+CXX="g++"
+CGO_ENABLED="1"
+</code></pre>
+
+<p>Any help will be greatly appreciated. Thanks!!</p>
+
+________________________________________________________________________________</br>[ACCEPTED ANSWER]:
+<p>Files containing tests should be called <code>name_test</code>, with the <code>_test</code> suffix. From <a href="http://golang.org/doc/code.html#Testing">How to Write Go Code</a>:</p>
+
+<blockquote>
+  <p>You write a test by creating a file with a name ending in <code>_test.go</code> that contains functions named <code>TestXXX</code> with signature <code>func (t *testing.T)</code>. The test framework runs each such function; if the function calls a failure function such as <code>t.Error</code> or <code>t.Fail</code>, the test is considered to have failed. </p>
+</blockquote>
