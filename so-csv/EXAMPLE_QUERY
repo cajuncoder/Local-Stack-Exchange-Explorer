@@ -1,0 +1,14 @@
+-- this will retrieve the top 100 python questions ordered by viewcount
+-- run your own queries in the StackExchange Data Explorer:
+-- https://data.stackexchange.com/stackoverflow/query/new
+
+select distinct top 100 que.title, que.viewcount, ans.title, que.body, ans.body, que.acceptedanswerid
+from posts que
+inner join posts ans on que.id = ans.parentid
+inner join posttags as pt on pt.postid = que.id
+inner join tags as t on pt.tagid = t.id
+where t.tagname in ('python')
+and que.posttypeid=1
+and ans.posttypeid=2
+and ans.id=que.acceptedanswerid
+order by que.viewcount desc

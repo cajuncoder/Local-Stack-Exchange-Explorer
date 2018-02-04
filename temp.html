@@ -1,25 +1,11 @@
-________________________________________________________________________________<br>[QUESTION]: bash script code help to make zip/tar of several folders 
-<p>I am very new in bash and never coded in before but this task is stuck so need to get rid of it .
-I need to make bash script to make a single compressed file with several dirs.</p>
+________________________________________________________________________________<br>[QUESTION]: Why do most tech startups use non-Microsoft stack for software development?
+<p>My understanding is that most startups choose non-MS stack for software development. Why? I think they choose to do this to keep costs low. But is it really any cheaper?</p>
 
-<p>Like -</p>
+<p>Lot of opensource projects start out as free so as to gain lot of users and so that creators can get lot of visibility within and outside their company, but when the projects start getting used a lot, many creators start their own companies which now charge money to fix all the problems caused by their opensource projects.</p>
 
-<pre><code>/home/code/bots/
-/var/config/
-.
-.
-.
-/var/system/
-</code></pre>
-
-<p>and all will be compressed to single file /var/file/bkup.[zip][tar.gz]</p>
-
-<p>Thanks in advance</p>
+<p>The other thing with a non-MS platform in today's world is that there are just too many choices to choose from esp. on the backend and in big-data processing. You pick anything and there will be some 20+ open source projects/technologies/databases to evaluate. It becomes overwhelming.</p>
 
 ________________________________________________________________________________</br>[ACCEPTED ANSWER]:
-<pre><code># tar: (c)reate g(z)ip (v)erbose (f)ile [filename.tar.gz] [contents]...
-tar -czvf /var/file/bkup.tar.gz /home/code/bots /var/config /var/system
+<p>You should choose the stack that your technical team is familiar with. The early days of a startup are not the time to discover new technologies. So if your team comes from a Windows background, stick with it.</p>
 
-# zip: (r)ecursive [filename.zip] [contents]...
-zip -r /var/file/bkup.zip /home/code/bots /var/config /var/system
-</code></pre>
+<p>StackOverflow is a great example of Windows-based startup. But yes, a lot of startups choose Linux and open source instead, and no, they don't have to pay after a while (unlike with Microsoft BizSpark program).</p>

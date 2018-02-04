@@ -1,0 +1,29 @@
+Local Stack Exchange Explorer (LSEE)
+Created 12/28/2018 By Luke Samuel Dupont
+Github Repository at: https://github.com/cajuncoder/Local-Stack-Exchange-Explorer
+
+
+PURPOSE
+To provide a local, searchable "dictionary" of StackExchange / StackOverflow questions and answers.
+LSEE allows you to:
+- Search and browse StackExchange questions and answers offline
+- Use a local CLI program rather than having to open a tab in a browser
+- Create, search, and view your own custom SQL queries for specific tags
+
+
+SCOPE
+It's my intention to keep this application very simple and easy to understand / modify so as not to impose too much specific structure and keep it accessible to programmers of all levels.
+
+
+INSTALLATION
+*
+
+
+CREATE A CSV
+*
+
+
+CONTRIBUTIONS
+Feek free to contribute or fork! I only ask that you give credit.
+Current contributors:
+

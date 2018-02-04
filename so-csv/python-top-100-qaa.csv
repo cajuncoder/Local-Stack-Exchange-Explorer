@@ -1,0 +1,4055 @@
+title,viewcount,title,body,body,acceptedanswerid
+"Parse String to Float or Int","2631612","","<p>In Python, how can I parse a numeric string like <code>""545.2222""</code> to its corresponding float value, <code>542.2222</code>? Or parse the string <code>""31""</code> to an integer, <code>31</code>?</p>
+
+<p>I just want to know how to parse a <em>float</em> <code>string</code> to a <code>float</code>, and (separately) an <em>int</em> <code>string</code> to an <code>int</code>.</p>
+","<pre><code>&gt;&gt;&gt; a = ""545.2222""
+&gt;&gt;&gt; float(a)
+545.22220000000004
+&gt;&gt;&gt; int(float(a))
+545
+</code></pre>
+","379910"
+"Iterating over dictionaries using 'for' loops","2378112","","<p>I am a bit puzzled by the following code:</p>
+
+<pre><code>d = {'x': 1, 'y': 2, 'z': 3} 
+for key in d:
+    print key, 'corresponds to', d[key]
+</code></pre>
+
+<p>What I don't understand is the <code>key</code> portion. How does Python recognize that it needs only to read the key from the dictionary? Is <code>key</code> a special word in Python? Or is it simply a variable?</p>
+","<p><code>key</code> is just a variable name.  </p>
+
+<pre><code>for key in d:
+</code></pre>
+
+<p>will simply loop over the keys in the dictionary, rather than the keys and values.  To loop over both key and value you can use the following:</p>
+
+<p>For Python 2.x:</p>
+
+<pre><code>for key, value in d.iteritems():
+</code></pre>
+
+<p>For Python 3.x:</p>
+
+<pre><code>for key, value in d.items():
+</code></pre>
+
+<p>To test for yourself, change the word <code>key</code> to <code>poop</code>.</p>
+
+<p>For Python 3.x, <code>iteritems()</code> has been replaced with simply <code>items()</code>, which returns a set-like view backed by the dict, like <code>iteritems()</code> but even better. 
+This is also available in 2.7 as <code>viewitems()</code>. </p>
+
+<p>The operation <code>items()</code> will work for both 2 and 3, but in 2 it will return a list of the dictionary's <code>(key, value)</code> pairs, which will not reflect changes to the dict that happen after the <code>items()</code> call. If you want the 2.x behavior in 3.x, you can call <code>list(d.items())</code>.</p>
+","3294899"
+"Using global variables in a function other than the one that created them","2375049","","<p>If I create a global variable in one function, how can I use that variable in another function?<br>
+Do I need to store the global variable in a local variable of the function which needs its access?</p>
+","<p>You can use a global variable in other functions by declaring it as <code>global</code> in each function that assigns to it:</p>
+
+<pre><code>globvar = 0
+
+def set_globvar_to_one():
+    global globvar    # Needed to modify global copy of globvar
+    globvar = 1
+
+def print_globvar():
+    print(globvar)     # No need for global declaration to read value of globvar
+
+set_globvar_to_one()
+print_globvar()       # Prints 1
+</code></pre>
+
+<p>I imagine the reason for it is that, since global variables are so dangerous, Python wants to make sure that you really know that's what you're playing with by explicitly requiring the <code>global</code> keyword.</p>
+
+<p>See other answers if you want to share a global variable across modules.</p>
+","423596"
+"Calling an external command in Python","2264040","","<p>How can I call an external command (as if I'd typed it at the Unix shell or Windows command prompt) from within a Python script?</p>
+","<p>Look at the <a href=""https://docs.python.org/2/library/subprocess.html"" rel=""noreferrer"">subprocess module</a> in the standard library:</p>
+
+<pre><code>from subprocess import call
+call([""ls"", ""-l""])
+</code></pre>
+
+<p>The advantage of <strong>subprocess</strong> vs <strong>system</strong> is that it is more flexible (you can get the stdout, stderr, the ""real"" status code, better error handling, etc...). </p>
+
+<p>The <a href=""https://docs.python.org/library/os.html#os.system"" rel=""noreferrer"">official docs</a> recommend the <strong>subprocess</strong> module over the alternative os.system():</p>
+
+<blockquote>
+  <p>The <strong>subprocess</strong> module provides more powerful facilities for spawning new processes and retrieving their results; using that module is preferable to using this function [<a href=""https://docs.python.org/library/os.html#os.system"" rel=""noreferrer""><code>os.system()</code></a>].</p>
+</blockquote>
+
+<p>The ""<a href=""https://docs.python.org/2/library/subprocess.html#replacing-older-functions-with-the-subprocess-module"" rel=""noreferrer"">Replacing Older Functions with the subprocess Module</a>"" section in the <strong>subprocess</strong> documentation may have some helpful recipes.</p>
+
+<p>Official documentation on the <strong>subprocess</strong> module:</p>
+
+<ul>
+<li><a href=""https://docs.python.org/2/library/subprocess.html#module-subprocess"" rel=""noreferrer"">Python 2 - subprocess</a></li>
+<li><a href=""https://docs.python.org/3/library/subprocess.html#module-subprocess"" rel=""noreferrer"">Python 3 - subprocess</a></li>
+</ul>
+","89243"
+"Converting integer to string in Python?","2136865","","<p>I want to convert an integer to a string in Python. I am typecasting it in vain:</p>
+
+<pre><code>t=raw_input()
+c=[]
+for j in range(0,int(t)):
+    n=raw_input()
+    a=[]
+    a,b= (int(i) for i in n.split(' '))
+    d=pow(a,b)
+    d.str()
+    c.append(d[0])
+for j in c:
+    print j
+</code></pre>
+
+<p>When I try to convert it to string, it's showing an error like <code>int</code> doesn't have any attribute called <code>str</code>.</p>
+","<pre><code>&gt;&gt;&gt; str(10)
+'10'
+&gt;&gt;&gt; int('10')
+10
+</code></pre>
+
+<p>Links to the documentation:</p>
+
+<ul>
+<li><a href=""https://docs.python.org/2/library/functions.html#int"" rel=""noreferrer""><code>int()</code></a>  </li>
+<li><a href=""https://docs.python.org/2/library/functions.html#str"" rel=""noreferrer""><code>str()</code></a></li>
+</ul>
+
+<p>The problem seems to come from this line: <code>d.str()</code>. </p>
+
+<p>Conversion to a string is done with the builtin <code>str()</code> function, which basically calls the <code>__str__()</code> method of its parameter.</p>
+
+<p>Also, it shouldn't be necessary to call <code>pow()</code>. Try using the <code>**</code> operator.</p>
+","961638"
+"Does Python have a string 'contains' substring method?","2121835","","<p>I'm looking for a <code>string.contains</code> or <code>string.indexof</code> method in Python.</p>
+
+<p>I want to do:</p>
+
+<pre><code>if not somestring.contains(""blah""):
+   continue
+</code></pre>
+","<p>You can use the <a href=""https://docs.python.org/reference/expressions.html#membership-test-details"" rel=""noreferrer""><code>in</code> operator</a>:</p>
+
+<pre><code>if ""blah"" not in somestring: 
+    continue
+</code></pre>
+","3437070"
+"Finding the index of an item given a list containing it in Python","2108507","","<p>For a list <code>[""foo"", ""bar"", ""baz""]</code> and an item in the list <code>""bar""</code>, what's the cleanest way to get its index (1) in Python?</p>
+","<pre><code>&gt;&gt;&gt; [""foo"", ""bar"", ""baz""].index(""bar"")
+1
+</code></pre>
+
+<p>Reference: <a href=""http://docs.python.org/2/tutorial/datastructures.html#more-on-lists"" rel=""noreferrer"">Data Structures > More on Lists</a></p>
+","176921"
+"How do I install pip on Windows?","2072857","","<p><a href=""https://pip.pypa.io/en/stable/"" rel=""noreferrer""><code>pip</code></a> is a replacement for <a href=""http://setuptools.readthedocs.io/en/latest/easy_install.html"" rel=""noreferrer""><code>easy_install</code></a>. But should I install <code>pip</code> using <code>easy_install</code> on Windows?  Is there a better way?</p>
+","<h2>Python 2.7.9+ and 3.4+</h2>
+
+<p>Good news! <a href=""https://docs.python.org/3/whatsnew/3.4.html"" rel=""noreferrer"">Python 3.4</a> (released March 2014) and <a href=""https://docs.python.org/2/whatsnew/2.7.html#pep-477-backport-ensurepip-pep-453-to-python-2-7"" rel=""noreferrer"">Python 2.7.9</a> (released December 2014) ship with Pip. This is the best feature of any Python release. It makes the community's wealth of libraries accessible to everyone. Newbies are no longer excluded from using community libraries by the prohibitive difficulty of setup. In shipping with a package manager, Python joins <a href=""http://en.wikipedia.org/wiki/Ruby_%28programming_language%29"" rel=""noreferrer"">Ruby</a>, <a href=""http://en.wikipedia.org/wiki/Node.js"" rel=""noreferrer"">Node.js</a>, <a href=""http://en.wikipedia.org/wiki/Haskell_%28programming_language%29"" rel=""noreferrer"">Haskell</a>, <a href=""http://en.wikipedia.org/wiki/Perl"" rel=""noreferrer"">Perl</a>, <a href=""http://en.wikipedia.org/wiki/Go_%28programming_language%29"" rel=""noreferrer"">Go</a>--almost every other contemporary language with a majority open-source community. Thank you Python.</p>
+
+<p>Of course, that doesn't mean Python packaging is problem solved. The experience remains frustrating. I discuss this <a href=""https://stackoverflow.com/questions/2436731/does-python-have-a-package-module-management-system/13445719#13445719"">in Stack Overflow question <em>Does Python have a package/module management system?</em></a>.</p>
+
+<p>And, alas for everyone using Python 2.7.8 or earlier (a sizable portion of the community). There's no plan to ship Pip to you. Manual instructions follow.</p>
+
+<h2>Python 2 ≤ 2.7.8 and Python 3 ≤ 3.3</h2>
+
+<p>Flying in the face of its <a href=""http://www.python.org/about/"" rel=""noreferrer"">'batteries included'</a> motto, Python ships without a package manager. To make matters worse, Pip was--until recently--ironically difficult to install.</p>
+
+<h3>Official instructions</h3>
+
+<p>Per <a href=""https://pip.pypa.io/en/stable/installing/#do-i-need-to-install-pip"" rel=""noreferrer"">https://pip.pypa.io/en/stable/installing/#do-i-need-to-install-pip</a>:</p>
+
+<p>Download <a href=""https://bootstrap.pypa.io/get-pip.py"" rel=""noreferrer""><code>get-pip.py</code></a>, being careful to save it as a <code>.py</code> file rather than <code>.txt</code>. Then, run it from the command prompt:</p>
+
+<pre><code>python get-pip.py
+</code></pre>
+
+<p>You possibly need an administrator command prompt to do this. Follow <em><a href=""http://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx"" rel=""noreferrer"">Start a Command Prompt as an Administrator</a></em> (Microsoft TechNet).</p>
+
+<p>This installs the pip package, which (in Windows) contains ...\Scripts\pip.exe that path must be in PATH environment variable to use pip from the command line (see second part of 'Alternative Instructions' for adding it to your PATH,</p>
+
+<h3>Alternative instructions</h3>
+
+<p>The official documentation tells users to install Pip and each of its dependencies from source. That's tedious for the experienced, and prohibitively difficult for newbies.</p>
+
+<p>For our sake, Christoph Gohlke prepares Windows installers (<code>.msi</code>) for popular Python packages. He builds installers for all Python versions, both 32 and 64 bit. You need to:</p>
+
+<ol>
+<li><a href=""http://www.lfd.uci.edu/~gohlke/pythonlibs/#setuptools"" rel=""noreferrer"">Install setuptools</a></li>
+<li><a href=""http://www.lfd.uci.edu/~gohlke/pythonlibs/#pip"" rel=""noreferrer"">Install pip</a></li>
+</ol>
+
+<p>For me, this installed Pip at <code>C:\Python27\Scripts\pip.exe</code>. Find <code>pip.exe</code> on your computer, then add its folder (for example, <code>C:\Python27\Scripts</code>) to your path (Start / Edit environment variables). Now you should be able to run <code>pip</code> from the command line. Try installing a package:</p>
+
+<pre><code>pip install httpie
+</code></pre>
+
+<p>There you go (hopefully)! Solutions for common problems are given below:</p>
+
+<h3>Proxy problems</h3>
+
+<p>If you work in an office, you might be behind a HTTP proxy. If so, set the environment variables <a href=""http://docs.python.org/2/library/urllib.html"" rel=""noreferrer""><code>http_proxy</code> and <code>https_proxy</code></a>. Most Python applications (and other free software) respect these. Example syntax:</p>
+
+<pre><code>http://proxy_url:port
+http://username:password@proxy_url:port
+</code></pre>
+
+<p>If you're really unlucky, your proxy might be a Microsoft <a href=""https://en.wikipedia.org/wiki/NT_LAN_Manager"" rel=""noreferrer"">NTLM</a> proxy. Free software can't cope. The only solution is to install a free software friendly proxy that forwards to the nasty proxy. <a href=""http://cntlm.sourceforge.net/"" rel=""noreferrer"">http://cntlm.sourceforge.net/</a></p>
+
+<h3>Unable to find vcvarsall.bat</h3>
+
+<p>Python modules can be part written in C or C++. Pip tries to compile from source. If you don't have a C/C++ compiler installed and configured, you'll see this cryptic error message.</p>
+
+<blockquote>
+  <p>Error: Unable to find vcvarsall.bat</p>
+</blockquote>
+
+<p>You can fix that by <a href=""https://stackoverflow.com/questions/2817869/error-unable-to-find-vcvarsall-bat"">installing a C++ compiler</a> such as <a href=""http://en.wikipedia.org/wiki/MinGW"" rel=""noreferrer"">MinGW</a> or <a href=""http://en.wikipedia.org/wiki/Visual_C%2B%2B#32-bit_versions"" rel=""noreferrer"">Visual C++</a>. Microsoft actually ship one specifically for use with Python. Or try <em><a href=""http://aka.ms/vcpython27"" rel=""noreferrer"">Microsoft Visual C++ Compiler for Python 2.7</a></em>.</p>
+
+<p>Often though it's easier to check <a href=""http://www.lfd.uci.edu/~gohlke/pythonlibs/"" rel=""noreferrer"">Christoph's site</a> for your package.</p>
+","12476379"
+"How to get the number of elements in a list in Python?","2061061","","<pre><code>items = []
+items.append(""apple"")
+items.append(""orange"")
+items.append(""banana"")
+
+# FAKE METHOD::
+items.amount()  # Should return 3
+</code></pre>
+
+<p>How do I get the number of elements in the list?</p>
+","<p>The <a href=""https://docs.python.org/2/library/functions.html#len"" rel=""noreferrer"" title=""len()""><code>len()</code></a> function can be used with a lot of types in <a href=""http://en.wikipedia.org/wiki/Python_%28programming_language%29"" rel=""noreferrer"">Python</a> - both built-in types and library types.</p>
+
+<pre><code>&gt;&gt;&gt; len([1,2,3])
+3
+</code></pre>
+","1712236"
+"Difference between append vs. extend list methods in Python","1894191","","<p>What's the difference between the list methods <code>append()</code> and <code>extend()</code>?</p>
+","<p><a href=""https://docs.python.org/2/library/array.html?#array.array.append"" rel=""noreferrer""><code>append</code></a>: Appends object at end.</p>
+
+<pre><code>x = [1, 2, 3]
+x.append([4, 5])
+print (x)
+</code></pre>
+
+<p>gives you: <code>[1, 2, 3, [4, 5]]</code></p>
+
+<hr>
+
+<p><a href=""https://docs.python.org/2/library/array.html?#array.array.extend"" rel=""noreferrer""><code>extend</code></a>: Extends list by appending elements from the iterable.</p>
+
+<pre><code>x = [1, 2, 3]
+x.extend([4, 5])
+print (x)
+</code></pre>
+
+<p>gives you: <code>[1, 2, 3, 4, 5]</code></p>
+","252711"
+"Add new keys to a dictionary?","1846547","","<p>Is it possible to add a key to a Python dictionary after it has been created? It doesn't seem to have an <code>.add()</code> method.</p>
+","<pre><code>&gt;&gt;&gt; d = {'key':'value'}
+&gt;&gt;&gt; print(d)
+{'key': 'value'}
+&gt;&gt;&gt; d['mynewkey'] = 'mynewvalue'
+&gt;&gt;&gt; print(d)
+{'mynewkey': 'mynewvalue', 'key': 'value'}
+</code></pre>
+","1024851"
+"Check if a given key already exists in a dictionary","1819050","","<p>I wanted to test if a key exists in a dictionary before updating the value for the key.
+I wrote the following code:</p>
+
+<pre><code>if 'key1' in dict.keys():
+  print ""blah""
+else:
+  print ""boo""
+</code></pre>
+
+<p>I think this is not the best way to accomplish this task. Is there a better way to test for a key in the dictionary?</p>
+","<p><code>in</code> is the intended way to test for the existence of a key in a <code>dict</code>.</p>
+
+<pre><code>d = dict()
+
+for i in xrange(100):
+    key = i % 10
+    if key in d:
+        d[key] += 1
+    else:
+        d[key] = 1
+</code></pre>
+
+<p>If you wanted a default, you can always use <code>dict.get()</code>:</p>
+
+<pre><code>d = dict()
+
+for i in xrange(100):
+    key = i % 10
+    d[key] = d.get(key, 0) + 1
+</code></pre>
+
+<p>... and if you wanted to always ensure a default value for any key you can use <code>defaultdict</code> from the <code>collections</code> module, like so:</p>
+
+<pre><code>from collections import defaultdict
+
+d = defaultdict(lambda: 0)
+
+for i in xrange(100):
+    d[i % 10] += 1
+</code></pre>
+
+<p>... but in general, the <code>in</code> keyword is the best way to do it.</p>
+","1602964"
+"How to get current time in Python?","1763245","","<p>What is the module/method used to get current time?</p>
+","<pre><code>&gt;&gt;&gt; import datetime
+&gt;&gt;&gt; datetime.datetime.now()
+datetime(2009, 1, 6, 15, 8, 24, 78915)
+</code></pre>
+
+<p>And just the time:</p>
+
+<pre><code>&gt;&gt;&gt; datetime.datetime.time(datetime.datetime.now())
+datetime.time(15, 8, 24, 78915)
+</code></pre>
+
+<p>The same but slightly more compact:</p>
+
+<pre><code>&gt;&gt;&gt; datetime.datetime.now().time()
+</code></pre>
+
+<p>See the <a href=""https://docs.python.org/3/library/datetime.html"" rel=""noreferrer""><strong>documentation</strong></a> for more info.</p>
+
+<p>To save typing, you can import the <code>datetime</code> object from the <code>datetime</code> module:</p>
+
+<pre><code>&gt;&gt;&gt; from datetime import datetime
+</code></pre>
+
+<p>Then remove the leading <code>datetime.</code> from all the above.</p>
+","415519"
+"Is there a way to substring a string in Python?","1745035","","<p>Is there a way to substring a string in Python, to get a new string from the 3rd character to the end of the string?</p>
+
+<p>Maybe like <code>myString[2:end]</code>?</p>
+
+<p>If leaving the second part means 'till the end', if you leave the first part, does it start from the start?</p>
+","<pre><code>&gt;&gt;&gt; x = ""Hello World!""
+&gt;&gt;&gt; x[2:]
+'llo World!'
+&gt;&gt;&gt; x[:2]
+'He'
+&gt;&gt;&gt; x[:-2]
+'Hello Worl'
+&gt;&gt;&gt; x[-2:]
+'d!'
+&gt;&gt;&gt; x[2:-2]
+'llo Worl'
+</code></pre>
+
+<p>Python calls this concept ""slicing"" and it works on more than just strings. Take a look <a href=""https://stackoverflow.com/questions/509211/good-primer-for-python-slice-notation"">here</a> for a comprehensive introduction.</p>
+","663175"
+"Parsing values from a JSON file?","1611074","","<p>I have this JSON in a file:</p>
+
+<pre class=""lang-json prettyprint-override""><code>{
+    ""maps"": [
+        {
+            ""id"": ""blabla"",
+            ""iscategorical"": ""0""
+        },
+        {
+            ""id"": ""blabla"",
+            ""iscategorical"": ""0""
+        }
+    ],
+    ""masks"": [
+        ""id"": ""valore""
+    ],
+    ""om_points"": ""value"",
+    ""parameters"": [
+        ""id"": ""valore""
+    ]
+}
+</code></pre>
+
+<p>I wrote this script which prints all of the json text:</p>
+
+<pre><code>json_data=open(file_directory).read()
+
+data = json.loads(json_data)
+pprint(data)
+</code></pre>
+
+<p>How can I parse the file and extract single values?</p>
+","<p>I think what Ignacio is saying is that your JSON file is incorrect. You have <code>[]</code> when you should have <code>{}</code>. <code>[]</code> are for lists, <code>{}</code> are for dictionaries.</p>
+
+<p>Here's how your JSON file should look, your JSON file wouldn't even load for me:</p>
+
+<pre><code>{
+    ""maps"": [
+        {
+            ""id"": ""blabla"",
+            ""iscategorical"": ""0""
+        },
+        {
+            ""id"": ""blabla"",
+            ""iscategorical"": ""0""
+        }
+    ],
+    ""masks"": {
+        ""id"": ""valore""
+    },
+    ""om_points"": ""value"",
+    ""parameters"": {
+        ""id"": ""valore""
+    }
+}
+</code></pre>
+
+<p>Then you can use your code:</p>
+
+<pre><code>import json
+from pprint import pprint
+
+data = json.load(open('data.json'))
+
+pprint(data)
+</code></pre>
+
+<p>With data, you can now also find values like so:</p>
+
+<pre><code>data[""maps""][0][""id""]
+data[""masks""][""id""]
+data[""om_points""]
+</code></pre>
+
+<p>Try those out and see if it starts to make sense.</p>
+","2835672"
+"How to remove an element from a list by index in Python?","1582260","","<p>How to remove an element from a list by index in Python?</p>
+
+<p>I found the <code>list.remove</code> method, but say I want to remove the last element, how do I do this? It seems like the default remove searches the list, but I don't want any search to be performed.</p>
+","<p>Use <code>del</code> and specify the element you want to delete with the index:</p>
+
+<pre><code>In [9]: a = list(range(10))
+In [10]: a
+Out[10]: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+In [11]: del a[-1]
+In [12]: a
+Out[12]: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+</code></pre>
+
+<p><a href=""http://docs.python.org/tutorial/datastructures.html#the-del-statement"" rel=""noreferrer"">Here</a> is the section from the tutorial.</p>
+","627453"
+"How can I create a directory if it does not exist?","1579827","","<p>What is the most elegant way to check if the directory a file is going to be written to exists, and if not, create the directory using Python? Here is what I tried:</p>
+
+<pre><code>import os
+
+file_path = ""/my/directory/filename.txt""
+directory = os.path.dirname(file_path)
+
+try:
+    os.stat(directory)
+except:
+    os.mkdir(directory)       
+
+f = file(filename)
+</code></pre>
+
+<p>Somehow, I missed <code>os.path.exists</code> (thanks kanja, Blair, and Douglas). This is what I have now:</p>
+
+<pre><code>def ensure_dir(file_path):
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+</code></pre>
+
+<p>Is there a flag for ""open"", that makes this happen automatically?</p>
+","<p>I see two answers with good qualities, each with a small flaw, so I will give my take on it:</p>
+
+<p>Try <a href=""https://docs.python.org/2/library/os.path.html#os.path.exists"" rel=""noreferrer""><code>os.path.exists</code></a>, and consider <a href=""https://docs.python.org/2/library/os.html#os.makedirs"" rel=""noreferrer""><code>os.makedirs</code></a> for the creation.</p>
+
+<pre><code>if not os.path.exists(directory):
+    os.makedirs(directory)
+</code></pre>
+
+<p>As noted in comments and elsewhere, there's a race condition - if the directory is created between the <code>os.path.exists</code> and the <code>os.makedirs</code> calls, the <code>os.makedirs</code> will fail with an <code>OSError</code>. Unfortunately, blanket-catching <code>OSError</code> and continuing is not foolproof, as it will ignore a failure to create the directory due to other factors, such as insufficient permissions, full disk, etc.</p>
+
+<p>One option would be to trap the <code>OSError</code> and examine the embedded error code (see <a href=""https://stackoverflow.com/questions/273698/is-there-a-cross-platform-way-of-getting-information-from-pythons-oserror"">Is there a cross-platform way of getting information from Python’s OSError</a>):</p>
+
+<pre><code>import os, errno
+
+try:
+    os.makedirs(directory)
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
+</code></pre>
+
+<p>Alternatively, there could be a second <code>os.path.exists</code>, but suppose another created the directory after the first check, then removed it before the second one - we could still be fooled. </p>
+
+<p>Depending on the application, the danger of concurrent operations may be more or less than the danger posed by other factors such as file permissions. The developer would have to know more about the particular application being developed and its expected environment before choosing an implementation.</p>
+","273227"
+"How do I sort a dictionary by value?","1557109","","<p>I have a dictionary of values read from two fields in a database: a string field and a numeric field. The string field is unique, so that is the key of the dictionary.</p>
+
+<p>I can sort on the keys, but how can I sort based on the values?</p>
+
+<p>Note: I have read Stack Overflow question <em><a href=""https://stackoverflow.com/questions/72899"">How do I sort a list of dictionaries by values of the dictionary in Python?</a></em> and probably could change my code to have a list of dictionaries, but since I do not really need a list of dictionaries I wanted to know if there is a simpler solution.</p>
+","<p>It is not possible to sort a dict, only to get a representation of a dict that is sorted. Dicts are inherently orderless, but other types, such as lists and tuples, are not. So you need an ordered data type to represent sorted values, which will be a list—probably a list of tuples.</p>
+
+<p>For instance,</p>
+
+<pre><code>import operator
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_x = sorted(x.items(), key=operator.itemgetter(1))
+</code></pre>
+
+<p><code>sorted_x</code> will be a list of tuples sorted by the second element in each tuple. <code>dict(sorted_x) == x</code>.</p>
+
+<p>And for those wishing to sort on keys instead of values:</p>
+
+<pre><code>import operator
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_x = sorted(x.items(), key=operator.itemgetter(0))
+</code></pre>
+","613218"
+"What does the ""yield"" keyword do?","1550063","","<p>What is the use of the <code>yield</code> keyword in Python? What does it do?</p>
+
+<p>For example, I'm trying to understand this code<sup><strong>1</strong></sup>:</p>
+
+<pre><code>def _get_child_candidates(self, distance, min_dist, max_dist):
+    if self._leftchild and distance - max_dist &lt; self._median:
+        yield self._leftchild
+    if self._rightchild and distance + max_dist &gt;= self._median:
+        yield self._rightchild  
+</code></pre>
+
+<p>And this is the caller:</p>
+
+<pre><code>result, candidates = [], [self]
+while candidates:
+    node = candidates.pop()
+    distance = node._get_dist(obj)
+    if distance &lt;= max_dist and distance &gt;= min_dist:
+        result.extend(node._values)
+    candidates.extend(node._get_child_candidates(distance, min_dist, max_dist))
+return result
+</code></pre>
+
+<p>What happens when the method <code>_get_child_candidates</code> is called?
+Is a list returned? A single element? Is it called again? When will subsequent calls stop?</p>
+
+<hr>
+
+<p><sub>
+1. The code comes from Jochen Schulz (jrschulz), who made a great Python library for metric spaces. This is the link to the complete source: <a href=""http://well-adjusted.de/~jrschulz/mspace/"" rel=""noreferrer"">Module mspace</a>.</sub></p>
+","<p>To understand what <code>yield</code> does, you must understand what <em>generators</em> are. And before generators come <em>iterables</em>.</p>
+
+<h2>Iterables</h2>
+
+<p>When you create a list, you can read its items one by one. Reading its items one by one is called iteration:</p>
+
+<pre><code>&gt;&gt;&gt; mylist = [1, 2, 3]
+&gt;&gt;&gt; for i in mylist:
+...    print(i)
+1
+2
+3
+</code></pre>
+
+<p><code>mylist</code> is an <em>iterable</em>. When you use a list comprehension, you create a list, and so an iterable:</p>
+
+<pre><code>&gt;&gt;&gt; mylist = [x*x for x in range(3)]
+&gt;&gt;&gt; for i in mylist:
+...    print(i)
+0
+1
+4
+</code></pre>
+
+<p>Everything you can use ""<code>for... in...</code>"" on is an iterable; <code>lists</code>, <code>strings</code>, files...</p>
+
+<p>These iterables are handy because you can read them as much as you wish, but you store all the values in memory and this is not always what you want when you have a lot of values.</p>
+
+<h2>Generators</h2>
+
+<p>Generators are iterators, a kind of iterable <strong>you can only iterate over once</strong>. Generators do not store all the values in memory, <strong>they generate the values on the fly</strong>:</p>
+
+<pre><code>&gt;&gt;&gt; mygenerator = (x*x for x in range(3))
+&gt;&gt;&gt; for i in mygenerator:
+...    print(i)
+0
+1
+4
+</code></pre>
+
+<p>It is just the same except you used <code>()</code> instead of <code>[]</code>. BUT, you <strong>cannot</strong> perform <code>for i in mygenerator</code> a second time since generators can only be used once: they calculate 0, then forget about it and calculate 1, and end calculating 4, one by one.</p>
+
+<h2>Yield</h2>
+
+<p><code>yield</code> is a keyword that is used like <code>return</code>, except the function will return a generator.</p>
+
+<pre><code>&gt;&gt;&gt; def createGenerator():
+...    mylist = range(3)
+...    for i in mylist:
+...        yield i*i
+...
+&gt;&gt;&gt; mygenerator = createGenerator() # create a generator
+&gt;&gt;&gt; print(mygenerator) # mygenerator is an object!
+&lt;generator object createGenerator at 0xb7555c34&gt;
+&gt;&gt;&gt; for i in mygenerator:
+...     print(i)
+0
+1
+4
+</code></pre>
+
+<p>Here it's a useless example, but it's handy when you know your function will return a huge set of values that you will only need to read once.</p>
+
+<p>To master <code>yield</code>, you must understand that <strong>when you call the function, the code you have written in the function body does not run.</strong> The function only returns the generator object, this is a bit tricky :-)</p>
+
+<p>Then, your code will be run each time the <code>for</code> uses the generator.</p>
+
+<p>Now the hard part:</p>
+
+<p>The first time the <code>for</code> calls the generator object created from your function, it will run the code in your function from the beginning until it hits <code>yield</code>, then it'll return the first value of the loop. Then, each other call will run the loop you have written in the function one more time, and return the next value, until there is no value to return.</p>
+
+<p>The generator is considered empty once the function runs but does not hit <code>yield</code> anymore. It can be because the loop had come to an end, or because you do not satisfy an <code>""if/else""</code> anymore.</p>
+
+<hr>
+
+<h2>Your code explained</h2>
+
+<p>Generator:</p>
+
+<pre><code># Here you create the method of the node object that will return the generator
+def _get_child_candidates(self, distance, min_dist, max_dist):
+
+    # Here is the code that will be called each time you use the generator object:
+
+    # If there is still a child of the node object on its left
+    # AND if distance is ok, return the next child
+    if self._leftchild and distance - max_dist &lt; self._median:
+        yield self._leftchild
+
+    # If there is still a child of the node object on its right
+    # AND if distance is ok, return the next child
+    if self._rightchild and distance + max_dist &gt;= self._median:
+        yield self._rightchild
+
+    # If the function arrives here, the generator will be considered empty
+    # there is no more than two values: the left and the right children
+</code></pre>
+
+<p>Caller:</p>
+
+<pre><code># Create an empty list and a list with the current object reference
+result, candidates = list(), [self]
+
+# Loop on candidates (they contain only one element at the beginning)
+while candidates:
+
+    # Get the last candidate and remove it from the list
+    node = candidates.pop()
+
+    # Get the distance between obj and the candidate
+    distance = node._get_dist(obj)
+
+    # If distance is ok, then you can fill the result
+    if distance &lt;= max_dist and distance &gt;= min_dist:
+        result.extend(node._values)
+
+    # Add the children of the candidate in the candidates list
+    # so the loop will keep running until it will have looked
+    # at all the children of the children of the children, etc. of the candidate
+    candidates.extend(node._get_child_candidates(distance, min_dist, max_dist))
+
+return result
+</code></pre>
+
+<p>This code contains several smart parts:</p>
+
+<ul>
+<li><p>The loop iterates on a list but the list expands while the loop is being iterated :-) It's a concise way to go through all these nested data even if it's a bit dangerous since you can end up with an infinite loop. In this case, <code>candidates.extend(node._get_child_candidates(distance, min_dist, max_dist))</code> exhausts all the values of the generator, but <code>while</code> keeps creating new generator objects which will produce different values from the previous ones since it's not applied on the same node.</p></li>
+<li><p>The <code>extend()</code> method is a list object method that expects an iterable and adds its values to the list.</p></li>
+</ul>
+
+<p>Usually we pass a list to it:</p>
+
+<pre><code>&gt;&gt;&gt; a = [1, 2]
+&gt;&gt;&gt; b = [3, 4]
+&gt;&gt;&gt; a.extend(b)
+&gt;&gt;&gt; print(a)
+[1, 2, 3, 4]
+</code></pre>
+
+<p>But in your code it gets a generator, which is good because:</p>
+
+<ol>
+<li>You don't need to read the values twice.</li>
+<li>You may have a lot of children and you don't want them all stored in memory.</li>
+</ol>
+
+<p>And it works because Python does not care if the argument of a method is a list or not. Python expects iterables so it will work with strings, lists, tuples and generators! This is called duck typing and is one of the reason why Python is so cool. But this is another story, for another question...</p>
+
+<p>You can stop here, or read a little bit to see an advanced use of a generator:</p>
+
+<h2>Controlling a generator exhaustion</h2>
+
+<pre><code>&gt;&gt;&gt; class Bank(): # let's create a bank, building ATMs
+...    crisis = False
+...    def create_atm(self):
+...        while not self.crisis:
+...            yield ""$100""
+&gt;&gt;&gt; hsbc = Bank() # when everything's ok the ATM gives you as much as you want
+&gt;&gt;&gt; corner_street_atm = hsbc.create_atm()
+&gt;&gt;&gt; print(corner_street_atm.next())
+$100
+&gt;&gt;&gt; print(corner_street_atm.next())
+$100
+&gt;&gt;&gt; print([corner_street_atm.next() for cash in range(5)])
+['$100', '$100', '$100', '$100', '$100']
+&gt;&gt;&gt; hsbc.crisis = True # crisis is coming, no more money!
+&gt;&gt;&gt; print(corner_street_atm.next())
+&lt;type 'exceptions.StopIteration'&gt;
+&gt;&gt;&gt; wall_street_atm = hsbc.create_atm() # it's even true for new ATMs
+&gt;&gt;&gt; print(wall_street_atm.next())
+&lt;type 'exceptions.StopIteration'&gt;
+&gt;&gt;&gt; hsbc.crisis = False # trouble is, even post-crisis the ATM remains empty
+&gt;&gt;&gt; print(corner_street_atm.next())
+&lt;type 'exceptions.StopIteration'&gt;
+&gt;&gt;&gt; brand_new_atm = hsbc.create_atm() # build a new one to get back in business
+&gt;&gt;&gt; for cash in brand_new_atm:
+...    print cash
+$100
+$100
+$100
+$100
+$100
+$100
+$100
+$100
+$100
+...
+</code></pre>
+
+<p><strong>Note:</strong> For Python3 use<code>print(corner_street_atm.__next__())</code> or <code>print(next(corner_street_atm))</code></p>
+
+<p>It can be useful for various things like controlling access to a resource.</p>
+
+<h2>Itertools, your best friend</h2>
+
+<p>The itertools module contains special functions to manipulate iterables. Ever wish to duplicate a generator?
+Chain two generators? Group values in a nested list with a one liner? <code>Map / Zip</code> without creating another list?</p>
+
+<p>Then just <code>import itertools</code>.</p>
+
+<p>An example? Let's see the possible orders of arrival for a 4 horse race:</p>
+
+<pre><code>&gt;&gt;&gt; horses = [1, 2, 3, 4]
+&gt;&gt;&gt; races = itertools.permutations(horses)
+&gt;&gt;&gt; print(races)
+&lt;itertools.permutations object at 0xb754f1dc&gt;
+&gt;&gt;&gt; print(list(itertools.permutations(horses)))
+[(1, 2, 3, 4),
+ (1, 2, 4, 3),
+ (1, 3, 2, 4),
+ (1, 3, 4, 2),
+ (1, 4, 2, 3),
+ (1, 4, 3, 2),
+ (2, 1, 3, 4),
+ (2, 1, 4, 3),
+ (2, 3, 1, 4),
+ (2, 3, 4, 1),
+ (2, 4, 1, 3),
+ (2, 4, 3, 1),
+ (3, 1, 2, 4),
+ (3, 1, 4, 2),
+ (3, 2, 1, 4),
+ (3, 2, 4, 1),
+ (3, 4, 1, 2),
+ (3, 4, 2, 1),
+ (4, 1, 2, 3),
+ (4, 1, 3, 2),
+ (4, 2, 1, 3),
+ (4, 2, 3, 1),
+ (4, 3, 1, 2),
+ (4, 3, 2, 1)]
+</code></pre>
+
+<h2>Understanding the inner mechanisms of iteration</h2>
+
+<p>Iteration is a process implying iterables (implementing the <code>__iter__()</code> method) and iterators (implementing the <code>__next__()</code> method).
+Iterables are any objects you can get an iterator from. Iterators are objects that let you iterate on iterables.</p>
+
+<p>More about it in this article about <a href=""http://effbot.org/zone/python-for-statement.htm"" rel=""noreferrer"">how does the for loop work</a>.</p>
+","231855"
+"Converting string into datetime","1464575","","<p>Short and simple. I've got a huge list of date-times like this as strings:</p>
+
+<pre><code>Jun 1 2005  1:33PM
+Aug 28 1999 12:00AM
+</code></pre>
+
+<p>I'm going to be shoving these back into proper datetime fields in a database so I need to magic them into real datetime objects. </p>
+
+<p>Any help (even if it's just a kick in the right direction) would be appreciated.</p>
+
+<p>Edit: This is going through Django's ORM so I can't use SQL to do the conversion on insert.</p>
+","<pre><code>from datetime import datetime
+
+datetime_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
+</code></pre>
+
+<p>The resulting <code>datetime</code> object is timezone-naive.</p>
+
+<p>Links:</p>
+
+<ul>
+<li><p>Python documentation for <code>strptime</code>: <a href=""https://docs.python.org/2/library/datetime.html#datetime.datetime.strptime"" rel=""noreferrer"" title=""datetime.datetime.strptime"">Python 2</a>, <a href=""https://docs.python.org/3/library/datetime.html#datetime.datetime.strptime"" rel=""noreferrer"">Python 3</a></p></li>
+<li><p>Python documentation for <code>strftime</code> format mask: <a href=""https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior"" rel=""noreferrer"" title=""strftime-and-strptime-behavior"">Python 2</a>, <a href=""https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior"" rel=""noreferrer"">Python 3</a></p></li>
+<li><p><a href=""http://strftime.org/"" rel=""noreferrer"">strftime.org</a> is also a really nice reference for strftime</p></li>
+</ul>
+
+<p>Notes:</p>
+
+<ul>
+<li><code>strptime</code> = ""string parse time""</li>
+<li><code>strftime</code> = ""string format time""</li>
+<li>Pronounce it out loud today &amp; you won't have to search for it again in 6 months.</li>
+</ul>
+","466376"
+"What does if __name__ == ""__main__"": do?","1453860","","<p>What does the <code>if __name__ == ""__main__"":</code> do?</p>
+
+<pre><code># Threading example
+import time, thread
+
+def myfunction(string, sleeptime, lock, *args):
+    while True:
+        lock.acquire()
+        time.sleep(sleeptime)
+        lock.release()
+        time.sleep(sleeptime)
+
+if __name__ == ""__main__"":
+    lock = thread.allocate_lock()
+    thread.start_new_thread(myfunction, (""Thread #: 1"", 2, lock))
+    thread.start_new_thread(myfunction, (""Thread #: 2"", 2, lock))
+</code></pre>
+","<p>When the Python interpreter reads a source file, it executes all of the code found in it.  </p>
+
+<p>Before executing the code, it will define a few special variables.  For example, if the python interpreter is running that module (the source file) as the main program, it sets the special <code>__name__</code> variable to have a value <code>""__main__""</code>.  If this file is being imported from another module, <code>__name__</code> will be set to the module's name.</p>
+
+<p>In the case of your script, let's assume that it's executing as the main function, e.g. you said something like</p>
+
+<pre><code>python threading_example.py
+</code></pre>
+
+<p>on the command line.  After setting up the special variables, it will execute the <code>import</code> statement and load those modules.  It will then evaluate the <code>def</code> block, creating a function object and creating a variable called <code>myfunction</code> that points to the function object.  It will then read the <code>if</code> statement and see that <code>__name__</code> does equal <code>""__main__""</code>, so it will execute the block shown there.</p>
+
+<p>One reason for doing this is that sometimes you write a module (a <code>.py</code> file) where it can be executed directly.  Alternatively, it can also be imported and used in another module.  By doing the main check, you can have that code only execute when you want to run the module as a program and not have it execute when someone just wants to import your module and call your functions themselves.</p>
+
+<p>See <a href=""http://ibiblio.org/g2swap/byteofpython/read/module-name.html"" rel=""noreferrer"">this page</a> for some extra details.</p>
+","419185"
+"How do I check if a list is empty?","1434755","","<p>For example, if passed the following:</p>
+
+<pre><code>a = []
+</code></pre>
+
+<p>How do I check to see if <code>a</code> is empty?</p>
+","<pre><code>if not a:
+  print(""List is empty"")
+</code></pre>
+
+<p>Using the implicit booleanness of the empty list is quite pythonic.</p>
+","53522"
+"How to convert string to lowercase in Python","1411935","","<p>Is there a way to convert a string from uppercase, or even part uppercase to lowercase? </p>
+
+<p>E.g. Kilometers --> kilometers.</p>
+","<pre><code>s = ""Kilometer""
+print(s.lower())
+</code></pre>
+
+<p>The official documentation is <a href=""https://docs.python.org/3.4/library/stdtypes.html?highlight=str.lower#str.lower"" rel=""noreferrer""><code>str.lower()</code></a>.</p>
+","6797990"
+"Find current directory and file's directory","1409689","","<p>In Python, what commands can I use to find:</p>
+
+<ol>
+<li>the current directory (where I was in the terminal when I ran the Python script), and</li>
+<li>where the file I am executing is?</li>
+</ol>
+","<p>To get the full path to the directory a Python file is contained in, write this in that file:</p>
+
+<pre><code>import os 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+</code></pre>
+
+<p>(Note that the incantation above won't work if you've already used <code>os.chdir()</code> to change your current working directory, since the value of the <code>__file__</code> constant is relative to the current working directory and is not changed by an <code>os.chdir()</code> call.)</p>
+
+<hr>
+
+<p>To get the current working directory use </p>
+
+<pre><code>import os
+cwd = os.getcwd()
+</code></pre>
+
+<hr>
+
+<p>Documentation references for the modules, constants and functions used above:</p>
+
+<ul>
+<li>The <a href=""https://docs.python.org/library/os.html""><code>os</code></a> and <a href=""https://docs.python.org/library/os.path.html#module-os.path""><code>os.path</code></a> modules.</li>
+<li>The <a href=""https://docs.python.org/reference/datamodel.html""><code>__file__</code></a> constant</li>
+<li><a href=""https://docs.python.org/library/os.path.html#os.path.realpath""><code>os.path.realpath(path)</code></a> (returns <em>""the canonical path of the specified filename, eliminating any symbolic links encountered in the path""</em>)</li>
+<li><a href=""https://docs.python.org/library/os.path.html#os.path.dirname""><code>os.path.dirname(path)</code></a> (returns <em>""the directory name of pathname <code>path</code>""</em>)</li>
+<li><a href=""https://docs.python.org/library/os.html#os.getcwd""><code>os.getcwd()</code></a> (returns <em>""a string representing the current working directory""</em>)</li>
+<li><a href=""https://docs.python.org/library/os.html#os.chdir""><code>os.chdir(path)</code></a> (<em>""change the current working directory to <code>path</code>""</em>)</li>
+</ul>
+","5137509"
+"Correct way to write line to file?","1383483","","<p>I'm used to doing <code>print &gt;&gt;f, ""hi there""</code></p>
+
+<p>However, it seems that <code>print &gt;&gt;</code> is getting deprecated. What is the recommended way to do the line above?</p>
+
+<p><b>Update</b>:
+Regarding all those answers with <code>""\n""</code>...is this universal or Unix-specific? IE, should I be doing <code>""\r\n""</code> on Windows?</p>
+","<p>This should be as simple as:</p>
+
+<pre><code>with open('somefile.txt', 'a') as the_file:
+    the_file.write('Hello\n')
+</code></pre>
+
+<p>From The Documentation:</p>
+
+<blockquote>
+  <p>Do not use <code>os.linesep</code> as a line terminator when writing files opened in text mode (the default); use a single '\n' instead, on all platforms.</p>
+</blockquote>
+
+<p>Some useful reading:</p>
+
+<ul>
+<li><a href=""http://docs.python.org/reference/compound_stmts.html#the-with-statement"" rel=""noreferrer"">The <code>with</code> statement</a></li>
+<li><a href=""http://docs.python.org/library/functions.html?highlight=open#open"" rel=""noreferrer""><code>open()</code></a>
+
+<ul>
+<li>'a' is for append, or use</li>
+<li>'w' to write with truncation</li>
+</ul></li>
+<li><a href=""http://docs.python.org/library/os.html"" rel=""noreferrer""><code>os</code></a> (particularly <a href=""http://docs.python.org/library/os.html?highlight=os.linesep#os.linesep"" rel=""noreferrer""><code>os.linesep</code></a>)</li>
+</ul>
+","6160082"
+"How to define a two-dimensional array in Python","1314712","","<p>I want to define a two-dimensional array without an initialized length like this:</p>
+
+<pre><code>Matrix = [][]
+</code></pre>
+
+<p>but it does not work...</p>
+
+<p>I've tried the code below, but it is wrong too:</p>
+
+<pre><code>Matrix = [5][5]
+</code></pre>
+
+<p><strong><em>Error:</em></strong></p>
+
+<pre><code>Traceback ...
+
+IndexError: list index out of range
+</code></pre>
+
+<p>What is my mistake?</p>
+","<p>You're technically trying to index an uninitialized array. You have to first initialize the outer list with lists before adding items; Python calls this
+""list comprehension"".</p>
+
+<pre><code># Creates a list containing 5 lists, each of 8 items, all set to 0
+w, h = 8, 5;
+Matrix = [[0 for x in range(w)] for y in range(h)] 
+</code></pre>
+
+<h1>You can now add items to the list:</h1>
+
+<pre><code>Matrix[0][0] = 1
+Matrix[6][0] = 3 # error! range... 
+Matrix[0][6] = 3 # valid
+
+print Matrix[0][0] # prints 1
+x, y = 0, 6 
+print Matrix[x][y] # prints 3; be careful with indexing! 
+</code></pre>
+
+<p>Although you can name them as you wish, I look at it this way to avoid some confusion that could arise with the indexing, if you use ""x"" for both the inner and outer lists, and want a non-square Matrix.</p>
+","6667288"
+"Getting the length of an array in Python","1266452","","<p>In <a href=""http://en.wikipedia.org/wiki/Python_%28programming_language%29"" rel=""noreferrer"">Python</a>, is the following the only way to get the number of elements?</p>
+
+<pre><code>arr.__len__()
+</code></pre>
+
+<p>If so, why the strange syntax?</p>
+","<pre><code>my_list = [1,2,3,4,5]
+len(my_list)
+</code></pre>
+
+<p>The same works for tuples:</p>
+
+<pre><code>my_tuple = (1,2,3,4,5)
+len(my_tuple)
+</code></pre>
+
+<p>And strings, which are really just arrays of characters:</p>
+
+<pre><code>my_string = 'hello world'
+len(my_string)
+</code></pre>
+
+<p>It was <a href=""http://effbot.org/pyfaq/why-does-python-use-methods-for-some-functionality-e-g-list-index-but-functions-for-other-e-g-len-list.htm"" rel=""noreferrer"">intentionally done this way</a> so that lists, tuples and other container types didn't all need to explicitly implement a public <code>.length()</code> method, instead you can just check the <code>len()</code> of anything that implements the 'magic' <code>__len__()</code> method.</p>
+
+<p>Sure, this may seem redundant, but length checking implementations can vary considerably, even within the same language. It's not uncommon to see one collection type use a <code>.length()</code> method while another type uses a <code>.length</code> property, while yet another uses <code>.count()</code>. Having a language-level keyword unifies the entry point for all these types. So even objects you may not consider to be lists of elements could still be length-checked.  This includes strings, queues, trees, etc.</p>
+
+<p>The functional nature of <code>len()</code> also lends itself well to functional styles of programming.</p>
+
+<pre><code>lengths = map(len, list_of_containers)
+</code></pre>
+","518038"
+"How to split a string into a list?","1217055","","<p>I want my python function to split a sentence (input) and store each word in a list. The code that I've written so far splits the sentence, but does not store the words as a list. How do I do that?</p>
+
+<pre><code>def split_line(text):
+
+    # split the text
+    words = text.split()
+
+    # for each word in the line:
+    for word in words:
+
+        # print the word
+        print(word)
+</code></pre>
+","<pre><code>text.split()
+</code></pre>
+
+<p>This should be enough to store each word in a list.  <code>words</code> is already a list of the words from the sentence, so there is no need for the loop.</p>
+
+<p>Second, it might be a typo, but you have your loop a little messed up. If you really did want to use append, it would be:</p>
+
+<pre><code>words.append(word)
+</code></pre>
+
+<p>not </p>
+
+<pre><code>word.append(words)
+</code></pre>
+","743823"
+"Understanding Python super() with __init__() methods","1165348","","<p>I'm trying to understand the use of <code>super()</code>. From the looks of it, both child classes can be created, just fine. </p>
+
+<p>I'm curious to know about the actual difference between the following 2 child classes.</p>
+
+<pre><code>class Base(object):
+    def __init__(self):
+        print ""Base created""
+
+class ChildA(Base):
+    def __init__(self):
+        Base.__init__(self)
+
+class ChildB(Base):
+    def __init__(self):
+        super(ChildB, self).__init__()
+
+ChildA() 
+ChildB()
+</code></pre>
+","<p><code>super()</code> lets you avoid referring to the base class explicitly, which can be nice. But the main advantage comes with multiple inheritance, where all sorts of <a href=""http://www.artima.com/weblogs/viewpost.jsp?thread=236275"" rel=""noreferrer"">fun stuff</a> can happen. See the <a href=""https://docs.python.org/2/library/functions.html#super"" rel=""noreferrer"">standard docs on super</a> if you haven't already.</p>
+
+<p>Note that <a href=""https://docs.python.org/3.0/library/functions.html#super"" rel=""noreferrer"">the syntax changed in Python 3.0</a>: you can just say <code>super().__init__()</code> instead of <code>super(ChildB, self).__init__()</code> which IMO is quite a bit nicer.</p>
+","576183"
+"Does Python have a ternary conditional operator?","1162111","","<p>If Python does not have a ternary conditional operator, is it possible to simulate one using other language constructs?</p>
+","<p>Yes, it was <a href=""https://mail.python.org/pipermail/python-dev/2005-September/056846.html"" rel=""noreferrer"" title=""[Python-Dev] Conditional Expression Resolution"">added</a> in version 2.5.<br>
+The syntax is:</p>
+
+<pre><code>a if condition else b
+</code></pre>
+
+<p>First <code>condition</code> is evaluated, then either <code>a</code> or <code>b</code> is returned based on the <a href=""https://en.wikipedia.org/wiki/Boolean_data_type"" rel=""noreferrer"" title=""Boolean data type"">Boolean</a> value of <code>condition</code><br>
+If <code>condition</code> evaluates to <em>True</em> <code>a</code> is returned, else <code>b</code> is returned. </p>
+
+<p>For example:</p>
+
+<pre><code>&gt;&gt;&gt; 'true' if True else 'false'
+'true'
+&gt;&gt;&gt; 'true' if False else 'false'
+'false'
+</code></pre>
+
+<p>Keep in mind that it's frowned upon by some Pythonistas for several reasons:</p>
+
+<ul>
+<li>The order of the arguments is different from many other languages (such as C, Ruby, Java, etc.), which may lead to bugs when people unfamiliar with Python's ""surprising"" behaviour use it (they may reverse the order).</li>
+<li>Some find it ""unwieldy"", since it goes contrary to the normal flow of thought (thinking of the condition first and then the effects).</li>
+<li>Stylistic reasons.</li>
+</ul>
+
+<p>If you're having trouble remembering the order, then remember that if you read it out loud, you (almost) say what you mean. For example, <code>x = 4 if b &gt; 8 else 9</code> is read aloud as <code>x will be 4 if b is greater than 8 otherwise 9</code>.</p>
+
+<p>Official documentation:</p>
+
+<ul>
+<li><a href=""https://docs.python.org/3/reference/expressions.html#conditional-expressions"" rel=""noreferrer"" title=""Conditional expressions"">Conditional expressions</a></li>
+<li><a href=""https://docs.python.org/3.3/faq/programming.html#is-there-an-equivalent-of-c-s-ternary-operator"" rel=""noreferrer"" title=""Is there an equivalent of C’s ”?:” ternary operator?"">Is there an equivalent of C’s ”?:” ternary operator?</a></li>
+</ul>
+","394814"
+"How to delete a file or folder?","1156151","","<p>How do I delete a file or folder in Python?</p>
+","<p><a href=""http://docs.python.org/library/os.html#os.remove"" rel=""noreferrer""><code>os.remove()</code></a> will remove a file.</p>
+
+<p><a href=""http://docs.python.org/library/os.html#os.rmdir"" rel=""noreferrer""><code>os.rmdir()</code></a> will remove an empty directory.</p>
+
+<p><a href=""http://docs.python.org/library/shutil.html#shutil.rmtree"" rel=""noreferrer""><code>shutil.rmtree()</code></a> will delete a directory and all its contents.</p>
+","6996628"
+"How to print without newline or space?","1150397","","<p>The question is in the title.</p>
+
+<p>I'd like to do it in  <a href=""/questions/tagged/python"" class=""post-tag"" title=""show questions tagged &#39;python&#39;"" rel=""tag"">python</a>. What I'd like to do in this example in <a href=""/questions/tagged/c"" class=""post-tag"" title=""show questions tagged &#39;c&#39;"" rel=""tag"">c</a>:</p>
+
+<pre class=""lang-c prettyprint-override""><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int i;
+    for (i=0; i&lt;10; i++) printf(""."");
+    return 0;
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>..........
+</code></pre>
+
+<p>In Python:</p>
+
+<pre><code>&gt;&gt;&gt; for i in xrange(0,10): print '.'
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+&gt;&gt;&gt; for i in xrange(0,10): print '.',
+. . . . . . . . . .
+</code></pre>
+
+<p>In Python <code>print</code> will add a <code>\n</code> or a space, how can I avoid that? Now, it's just an example. Don't tell me I can first build a string then print it. I'd like to know how to ""append"" strings to <code>stdout</code>.</p>
+","<h2>General way</h2>
+
+<pre><code>import sys
+sys.stdout.write('.')
+</code></pre>
+
+<p>You may also need to call</p>
+
+<pre><code>sys.stdout.flush()
+</code></pre>
+
+<p>to ensure <code>stdout</code> is flushed immediately.</p>
+
+<h2>Python 2.6+</h2>
+
+<p>From Python 2.6 you can import the <code>print</code> function from Python 3:</p>
+
+<pre><code>from __future__ import print_function
+</code></pre>
+
+<p>This allows you to use the Python 3 solution below.</p>
+
+<h2>Python 3</h2>
+
+<p>In Python 3, the <code>print</code> statement has been changed into a function. In Python 3, you can instead do:</p>
+
+<pre><code>print('.', end='')
+</code></pre>
+
+<p>This also works in Python 2, provided that you've used <code>from __future__ import print_function</code>.</p>
+
+<p>If you are having trouble with buffering, you can flush the output by adding <code>flush=True</code> keyword argument:</p>
+
+<pre><code>print('.', end='', flush=True)
+</code></pre>
+","493399"
+"How to convert strings into integers in Python?","1148929","","<p>I have a tuple of tuples from a MySQL query like this:</p>
+
+<pre><code>T1 = (('13', '17', '18', '21', '32'),
+      ('07', '11', '13', '14', '28'),
+      ('01', '05', '06', '08', '15', '16'))
+</code></pre>
+
+<p>I'd like to convert all the string elements into integers and put them back into a list of lists:</p>
+
+<pre><code>T2 = [[13, 17, 18, 21, 32], [7, 11, 13, 14, 28], [1, 5, 6, 8, 15, 16]]
+</code></pre>
+
+<p>I tried to achieve it with <code>eval</code> but didn't get any decent result yet.</p>
+","<p><a href=""https://docs.python.org/2/library/functions.html#int"" rel=""noreferrer""><code>int()</code></a> is the Python standard built-in function to convert a string into an integer value. You call it with a string containing a number as the argument, and it returns the number converted to an actual integer:</p>
+
+<pre><code>print int(""1"") + 1
+</code></pre>
+
+<p>The above prints <code>2</code>.</p>
+
+<p>If you know the structure of your list, T1 (that it simply contains lists, only one level), you could do this in Python 2:</p>
+
+<pre><code>T2 = [map(int, x) for x in T1]
+</code></pre>
+
+<p>In Python 3:</p>
+
+<pre><code>T2 = [list(map(int, x)) for x in T1]
+</code></pre>
+","642169"
+"How to concatenate two lists in Python?","1138949","","<p>How do I concatenate two lists in Python?</p>
+
+<p>Example:</p>
+
+<pre><code>listone = [1, 2, 3]
+listtwo = [4, 5, 6]
+</code></pre>
+
+<p>Expected outcome:</p>
+
+<pre><code>joinedlist == [1, 2, 3, 4, 5, 6]
+</code></pre>
+","<p>Python makes this ridiculously easy. You can use the <code>+</code> operator to combine them:</p>
+
+<pre><code>mergedlist = listone + listtwo
+</code></pre>
+","1720432"
+"Determine the type of an object?","1112420","","<p>Is there a simple way to determine if a variable is a list, dictionary, or something else? I am getting an object back that may be either type and I need to be able to tell the difference.</p>
+","<p>To get the type of an object, you can use the built-in <a href=""http://docs.python.org/3/library/functions.html#type"" rel=""noreferrer""><code>type()</code></a> function. Passing an object as the only parameter will return the type object of that object:</p>
+
+<pre><code>&gt;&gt;&gt; type([]) is list
+True
+&gt;&gt;&gt; type({}) is dict
+True
+&gt;&gt;&gt; type('') is str
+True
+&gt;&gt;&gt; type(0) is int
+True
+&gt;&gt;&gt; type({})
+&lt;type 'dict'&gt;
+&gt;&gt;&gt; type([])
+&lt;type 'list'&gt;
+</code></pre>
+
+<p>This of course also works for custom types:</p>
+
+<pre><code>&gt;&gt;&gt; class Test1 (object):
+        pass
+&gt;&gt;&gt; class Test2 (Test1):
+        pass
+&gt;&gt;&gt; a = Test1()
+&gt;&gt;&gt; b = Test2()
+&gt;&gt;&gt; type(a) is Test1
+True
+&gt;&gt;&gt; type(b) is Test2
+True
+</code></pre>
+
+<p>Note that <code>type()</code> will only return the immediate type of the object, but won’t be able to tell you about type inheritance.</p>
+
+<pre><code>&gt;&gt;&gt; type(b) is Test1
+False
+</code></pre>
+
+<p>To cover that, you should use the <a href=""http://docs.python.org/3/library/functions.html#isinstance"" rel=""noreferrer""><code>isinstance</code></a> function. This of course also works for built-in types:</p>
+
+<pre><code>&gt;&gt;&gt; isinstance(b, Test1)
+True
+&gt;&gt;&gt; isinstance(b, Test2)
+True
+&gt;&gt;&gt; isinstance(a, Test1)
+True
+&gt;&gt;&gt; isinstance(a, Test2)
+False
+&gt;&gt;&gt; isinstance([], list)
+True
+&gt;&gt;&gt; isinstance({}, dict)
+True
+</code></pre>
+
+<p><code>isinstance()</code> is usually the preferred way to ensure the type of an object because it will also accept derived types. So unless you actually need the type object (for whatever reason), using <code>isinstance()</code> is preferred over <code>type()</code>.</p>
+
+<p>The second parameter of <code>isinstance()</code> also accepts a tuple of types, so it’s possible to check for multiple types at once. <code>isinstance</code> will then return true, if the object is of any of those types:</p>
+
+<pre><code>&gt;&gt;&gt; isinstance([], (tuple, list, set))
+True
+</code></pre>
+","2225066"
+"Accessing the index in Python 'for' loops","1110370","","<p>How do I access the index itself for a list like the following?</p>
+
+<pre><code>ints = [8, 23, 45, 12, 78]
+</code></pre>
+
+<p>When I loop through it using a <code>for</code> loop, how do I access the loop index, from 1 to 5 in this case?</p>
+","<p>Using an additional state variable, such as an index variable (which you would normally use in languages such as C or PHP), is considered non-pythonic.</p>
+
+<p>The better option is to use the built-in function <a href=""https://docs.python.org/3/library/functions.html#enumerate"" rel=""noreferrer"" title=""enumerate""><code>enumerate()</code></a>, available in both Python 2 and 3:</p>
+
+<pre><code>for idx, val in enumerate(ints):
+    print(idx, val)
+</code></pre>
+
+<p>Check out <a href=""https://www.python.org/dev/peps/pep-0279/"" rel=""noreferrer"" title=""PEP 279"">PEP 279</a> for more.</p>
+","522578"
+"Generate random integers between 0 and 9","1083303","","<p>How can I generate random integers between 0 and 9 (inclusive) in Python?</p>
+
+<p>i.e. <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, <code>9</code></p>
+","<p>Try:</p>
+
+<pre><code>from random import randint
+print(randint(0, 9))
+</code></pre>
+
+<p>More info: <a href=""https://docs.python.org/3/library/random.html#random.randint"" rel=""noreferrer"">https://docs.python.org/3/library/random.html#random.randint</a></p>
+","3996930"
+"Why does comparing strings in Python using either '==' or 'is' sometimes produce a different result?","1071113","","<p>I've got a Python program where two variables are set to the value <code>'public'</code>. In a conditional expression I have the comparison <code>var1 is var2</code> which fails, but if I change it to <code>var1 == var2</code> it returns <code>True</code>.</p>
+
+<p>Now if I open my Python interpreter and do the same ""is"" comparison, it succeeds.</p>
+
+<pre><code>&gt;&gt;&gt; s1 = 'public'
+&gt;&gt;&gt; s2 = 'public'
+&gt;&gt;&gt; s2 is s1
+True
+</code></pre>
+
+<p>What am I missing here?</p>
+","<p><code>is</code> is identity testing, <code>==</code> is equality testing. what happens in your code would be emulated in the interpreter like this:</p>
+
+<pre><code>&gt;&gt;&gt; a = 'pub'
+&gt;&gt;&gt; b = ''.join(['p', 'u', 'b'])
+&gt;&gt;&gt; a == b
+True
+&gt;&gt;&gt; a is b
+False
+</code></pre>
+
+<p>so, no wonder they're not the same, right?</p>
+
+<p>In other words: <code>is</code> is the <code>id(a) == id(b)</code></p>
+","1504742"
+"How do you append to a file?","1060690","","<p>How do you append to the file instead of overwriting it? Is there a special function that appends to the file?</p>
+","<pre><code>with open(""test.txt"", ""a"") as myfile:
+    myfile.write(""appended text"")
+</code></pre>
+","4706520"
+"Getting the last element of a list in Python","1048401","","<p>In Python, how do you get the last element of a list?</p>
+","<p><code>some_list[-1]</code> is the shortest and most Pythonic.</p>
+
+<p>In fact, you can do much more with this syntax. The <code>some_list[-n]</code> syntax gets the nth-to-last element. So <code>some_list[-1]</code> gets the last element, <code>some_list[-2]</code> gets the second to last, etc, all the way down to <code>some_list[-len(some_list)]</code>, which gives you the first element.</p>
+
+<p>You can also set list elements in this way. For instance:</p>
+
+<pre><code>&gt;&gt;&gt; some_list = [1, 2, 3]
+&gt;&gt;&gt; some_list[-1] = 5 # Set the last element
+&gt;&gt;&gt; some_list[-2] = 3 # Set the second to last element
+&gt;&gt;&gt; some_list
+[1, 3, 5]
+</code></pre>
+","930398"
+"Python's equivalent of && (logical-and) in an if-statement","1036149","","<p>Here's my code:</p>
+
+<pre><code># F. front_back
+# Consider dividing a string into two halves.
+# If the length is even, the front and back halves are the same length.
+# If the length is odd, we'll say that the extra char goes in the front half.
+# e.g. 'abcde', the front half is 'abc', the back half 'de'.
+# Given 2 strings, a and b, return a string of the form
+#  a-front + b-front + a-back + b-back
+def front_back(a, b):
+  # +++your code here+++
+  if len(a) % 2 == 0 &amp;&amp; len(b) % 2 == 0:
+    return a[:(len(a)/2)] + b[:(len(b)/2)] + a[(len(a)/2):] + b[(len(b)/2):] 
+  else:
+    #todo! Not yet done. :P
+  return
+</code></pre>
+
+<p>I'm getting an error in the IF conditional. What am I doing wrong?</p>
+","<p>You would want <code>and</code> instead of <code>&amp;&amp;</code>.</p>
+","2485471"
+"Replacements for switch statement in Python?","1010035","","<p>I want to write a function in Python that returns different fixed values based on the value of an input index.  </p>
+
+<p>In other languages I would use a <code>switch</code> or <code>case</code> statement, but Python does not appear to have a <code>switch</code> statement.  What are the recommended Python solutions in this scenario?</p>
+","<p>You could use a dictionary:</p>
+
+<pre><code>def f(x):
+    return {
+        'a': 1,
+        'b': 2,
+    }[x]
+</code></pre>
+","60211"
+"Renaming columns in pandas","1005225","","<p>I have a DataFrame using pandas and column labels that I need to edit to replace the original column labels. </p>
+
+<p>I'd like to change the column names in a DataFrame <code>A</code> where the original column names are:</p>
+
+<pre><code>['$a', '$b', '$c', '$d', '$e'] 
+</code></pre>
+
+<p>to </p>
+
+<pre><code>['a', 'b', 'c', 'd', 'e'].
+</code></pre>
+
+<p>I have the edited column names stored it in a list, but I don't know how to replace the column names.</p>
+","<p>Just assign it to the <code>.columns</code> attribute:</p>
+
+<pre><code>&gt;&gt;&gt; df = pd.DataFrame({'$a':[1,2], '$b': [10,20]})
+&gt;&gt;&gt; df.columns = ['a', 'b']
+&gt;&gt;&gt; df
+   a   b
+0  1  10
+1  2  20
+</code></pre>
+","11346337"
+"How can I do a line break (line continuation) in Python?","1002302","","<p>I have a long line of code that I want to break up among multiple lines. What do I use and what is the syntax?</p>
+
+<p>For example, adding a bunch of strings,</p>
+
+<pre><code>e = 'a' + 'b' + 'c' + 'd'
+</code></pre>
+
+<p>and have it in two lines like this:</p>
+
+<pre><code>e = 'a' + 'b' +
+    'c' + 'd'
+</code></pre>
+","<p>What is the line?  You can just have arguments on the next line without any problems:</p>
+
+<pre><code>a = dostuff(blahblah1, blahblah2, blahblah3, blahblah4, blahblah5, 
+            blahblah6, blahblah7)
+</code></pre>
+
+<p>Otherwise you can do something like this:</p>
+
+<pre><code>if a == True and \
+   b == False
+</code></pre>
+
+<p>Check the <a href=""http://www.python.org/dev/peps/pep-0008/"" rel=""noreferrer"">style guide</a> for more information.</p>
+
+<p>From your example line:</p>
+
+<pre><code>a = '1' + '2' + '3' + \
+    '4' + '5'
+</code></pre>
+
+<p>Or:</p>
+
+<pre><code>a = ('1' + '2' + '3' +
+    '4' + '5')
+</code></pre>
+
+<p>Note that the style guide says that using the implicit continuation with parentheses is preferred, but in this particular case just adding parentheses around your expression is probably the wrong way to go.</p>
+","53180"
+"How do I append one string to another in Python?","987604","","<p>I want an efficient way to append one string to another in Python.</p>
+
+<pre><code>var1 = ""foo""
+var2 = ""bar""
+var3 = var1 + var2
+</code></pre>
+
+<p>Is there any good built-in method to use?</p>
+","<p>If you only have one reference to a string and you concatenate another string to the end, CPython now special cases this and tries to extend the string in place.</p>
+
+<p>The end result is that the operation is amortized O(n).</p>
+
+<p>e.g.</p>
+
+<pre><code>s = """"
+for i in range(n):
+    s+=str(i)
+</code></pre>
+
+<p>used to be O(n^2), but now it is O(n).</p>
+
+<p>From the source (bytesobject.c):</p>
+
+<pre class=""lang-c prettyprint-override""><code>void
+PyBytes_ConcatAndDel(register PyObject **pv, register PyObject *w)
+{
+    PyBytes_Concat(pv, w);
+    Py_XDECREF(w);
+}
+
+
+/* The following function breaks the notion that strings are immutable:
+   it changes the size of a string.  We get away with this only if there
+   is only one module referencing the object.  You can also think of it
+   as creating a new string object and destroying the old one, only
+   more efficiently.  In any case, don't use this if the string may
+   already be known to some other part of the code...
+   Note that if there's not enough memory to resize the string, the original
+   string object at *pv is deallocated, *pv is set to NULL, an ""out of
+   memory"" exception is set, and -1 is returned.  Else (on success) 0 is
+   returned, and the value in *pv may or may not be the same as on input.
+   As always, an extra byte is allocated for a trailing \0 byte (newsize
+   does *not* include that), and a trailing \0 byte is stored.
+*/
+
+int
+_PyBytes_Resize(PyObject **pv, Py_ssize_t newsize)
+{
+    register PyObject *v;
+    register PyBytesObject *sv;
+    v = *pv;
+    if (!PyBytes_Check(v) || Py_REFCNT(v) != 1 || newsize &lt; 0) {
+        *pv = 0;
+        Py_DECREF(v);
+        PyErr_BadInternalCall();
+        return -1;
+    }
+    /* XXX UNREF/NEWREF interface should be more symmetrical */
+    _Py_DEC_REFTOTAL;
+    _Py_ForgetReference(v);
+    *pv = (PyObject *)
+        PyObject_REALLOC((char *)v, PyBytesObject_SIZE + newsize);
+    if (*pv == NULL) {
+        PyObject_Del(v);
+        PyErr_NoMemory();
+        return -1;
+    }
+    _Py_NewReference(*pv);
+    sv = (PyBytesObject *) *pv;
+    Py_SIZE(sv) = newsize;
+    sv-&gt;ob_sval[newsize] = '\0';
+    sv-&gt;ob_shash = -1;          /* invalidate cached hash value */
+    return 0;
+}
+</code></pre>
+
+<p>It's easy enough to verify empirically.</p>
+
+<pre>
+$ python -m timeit -s""s=''"" ""for i in xrange(10):s+='a'""
+1000000 loops, best of 3: 1.85 usec per loop
+$ python -m timeit -s""s=''"" ""for i in xrange(100):s+='a'""
+10000 loops, best of 3: 16.8 usec per loop
+$ python -m timeit -s""s=''"" ""for i in xrange(1000):s+='a'""
+10000 loops, best of 3: 158 usec per loop
+$ python -m timeit -s""s=''"" ""for i in xrange(10000):s+='a'""
+1000 loops, best of 3: 1.71 msec per loop
+$ python -m timeit -s""s=''"" ""for i in xrange(100000):s+='a'""
+10 loops, best of 3: 14.6 msec per loop
+$ python -m timeit -s""s=''"" ""for i in xrange(1000000):s+='a'""
+10 loops, best of 3: 173 msec per loop
+</pre>
+
+<p><strong>It's important</strong> however to note that this optimisation isn't part of the Python spec. It's only in the cPython implementation as far as I know. The same empirical testing on pypy or jython for example might show the older O(n**2) performance .</p>
+
+<pre>
+$ pypy -m timeit -s""s=''"" ""for i in xrange(10):s+='a'""
+10000 loops, best of 3: 90.8 usec per loop
+$ pypy -m timeit -s""s=''"" ""for i in xrange(100):s+='a'""
+1000 loops, best of 3: 896 usec per loop
+$ pypy -m timeit -s""s=''"" ""for i in xrange(1000):s+='a'""
+100 loops, best of 3: 9.03 msec per loop
+$ pypy -m timeit -s""s=''"" ""for i in xrange(10000):s+='a'""
+10 loops, best of 3: 89.5 msec per loop
+</pre>
+
+<p>So far so good, but then,</p>
+
+<pre>
+$ pypy -m timeit -s""s=''"" ""for i in xrange(100000):s+='a'""
+10 loops, best of 3: 12.8 sec per loop
+</pre>
+
+<p>ouch even worse than quadratic. So pypy is doing something that works well with short strings, but performs poorly for larger strings.</p>
+","4435752"
+"Understanding Python's slice notation","986390","","<p>I need a good explanation (references are a plus) on Python's slice notation. </p>
+
+<p>To me, this notation needs a bit of picking up. </p>
+
+<p>It looks extremely powerful, but I haven't quite got my head around it.</p>
+","<p>It's pretty simple really:</p>
+
+<pre><code>a[start:end] # items start through end-1
+a[start:]    # items start through the rest of the array
+a[:end]      # items from the beginning through end-1
+a[:]         # a copy of the whole array
+</code></pre>
+
+<p>There is also the <code>step</code> value, which can be used with any of the above:</p>
+
+<pre><code>a[start:end:step] # start through not past end, by step
+</code></pre>
+
+<p>The key point to remember is that the <code>:end</code> value represents the first value that is <em>not</em> in the selected slice. So, the difference beween <code>end</code> and <code>start</code> is the number of elements selected (if <code>step</code> is 1, the default).</p>
+
+<p>The other feature is that <code>start</code> or <code>end</code> may be a <em>negative</em> number, which means it counts from the end of the array instead of the beginning. So:</p>
+
+<pre><code>a[-1]    # last item in the array
+a[-2:]   # last two items in the array
+a[:-2]   # everything except the last two items
+</code></pre>
+
+<p>Python is kind to the programmer if there are fewer items than you ask for. For example, if you ask for <code>a[:-2]</code> and <code>a</code> only contains one element, you get an empty list instead of an error. Sometimes you would prefer the error, so you have to be aware that this may happen.</p>
+","509295"
+"How to merge two dictionaries in a single expression?","985651","","<p>I have two Python dictionaries, and I want to write a single expression that returns these two dictionaries, merged.  The <code>update()</code> method would be what I need, if it returned its result instead of modifying a dict in-place.</p>
+
+<pre><code>&gt;&gt;&gt; x = {'a':1, 'b': 2}
+&gt;&gt;&gt; y = {'b':10, 'c': 11}
+&gt;&gt;&gt; z = x.update(y)
+&gt;&gt;&gt; print(z)
+None
+&gt;&gt;&gt; x
+{'a': 1, 'b': 10, 'c': 11}
+</code></pre>
+
+<p>How can I get that final merged dict in <code>z</code>, not <code>x</code>?</p>
+
+<p>(To be extra-clear, the last-one-wins conflict-handling of <code>dict.update()</code> is what I'm looking for as well.)</p>
+","<blockquote>
+  <h1>How can I merge two Python dictionaries in a single expression?</h1>
+</blockquote>
+
+<p>For dictionaries <code>x</code> and <code>y</code>, <code>z</code> becomes a merged dictionary with values from <code>y</code> replacing those from <code>x</code>.</p>
+
+<ul>
+<li><p>In Python 3.5 or greater, :</p>
+
+<pre><code>z = {**x, **y}
+</code></pre></li>
+<li><p>In Python 2, (or 3.4 or lower) write a function:</p>
+
+<pre><code>def merge_two_dicts(x, y):
+    z = x.copy()   # start with x's keys and values
+    z.update(y)    # modifies z with y's keys and values &amp; returns None
+    return z
+</code></pre>
+
+<p>and</p>
+
+<pre><code>z = merge_two_dicts(x, y)
+</code></pre></li>
+</ul>
+
+<h2>Explanation</h2>
+
+<p>Say you have two dicts and you want to merge them into a new dict without altering the original dicts:</p>
+
+<pre><code>x = {'a': 1, 'b': 2}
+y = {'b': 3, 'c': 4}
+</code></pre>
+
+<p>The desired result is to get a new dictionary (<code>z</code>) with the values merged, and the second dict's values overwriting those from the first.</p>
+
+<pre><code>&gt;&gt;&gt; z
+{'a': 1, 'b': 3, 'c': 4}
+</code></pre>
+
+<p>A new syntax for this, proposed in <a href=""https://www.python.org/dev/peps/pep-0448"" rel=""noreferrer"">PEP 448</a> and <a href=""https://mail.python.org/pipermail/python-dev/2015-February/138564.html"" rel=""noreferrer"">available as of Python 3.5</a>, is </p>
+
+<pre><code>z = {**x, **y}
+</code></pre>
+
+<p>And it is indeed a single expression. It is now showing as implemented in the <a href=""https://www.python.org/dev/peps/pep-0478/#features-for-3-5"" rel=""noreferrer"">release schedule for 3.5, PEP 478</a>, and it has now made its way into <a href=""https://docs.python.org/dev/whatsnew/3.5.html#pep-448-additional-unpacking-generalizations"" rel=""noreferrer"">What's New in Python 3.5</a> document.</p>
+
+<p>However, since many organizations are still on Python 2, you may wish to do this in a backwards compatible way. The classically Pythonic way, available in Python 2 and Python 3.0-3.4, is to do this as a two-step process:</p>
+
+<pre><code>z = x.copy()
+z.update(y) # which returns None since it mutates z
+</code></pre>
+
+<p>In both approaches, <code>y</code> will come second and its values will replace <code>x</code>'s values, thus <code>'b'</code> will point to <code>3</code> in our final result.</p>
+
+<h1>Not yet on Python 3.5, but want a <em>single expression</em></h1>
+
+<p>If you are not yet on Python 3.5, or need to write backward-compatible code, and you want this in a <em>single expression</em>, the most performant while correct approach is to put it in a function:</p>
+
+<pre><code>def merge_two_dicts(x, y):
+    """"""Given two dicts, merge them into a new dict as a shallow copy.""""""
+    z = x.copy()
+    z.update(y)
+    return z
+</code></pre>
+
+<p>and then you have a single expression:</p>
+
+<pre><code>z = merge_two_dicts(x, y)
+</code></pre>
+
+<p>You can also make a function to merge an undefined number of dicts, from zero to a very large number:</p>
+
+<pre><code>def merge_dicts(*dict_args):
+    """"""
+    Given any number of dicts, shallow copy and merge into a new dict,
+    precedence goes to key value pairs in latter dicts.
+    """"""
+    result = {}
+    for dictionary in dict_args:
+        result.update(dictionary)
+    return result
+</code></pre>
+
+<p>This function will work in Python 2 and 3 for all dicts. e.g. given dicts <code>a</code> to <code>g</code>:</p>
+
+<pre><code>z = merge_dicts(a, b, c, d, e, f, g) 
+</code></pre>
+
+<p>and key value pairs in <code>g</code> will take precedence over dicts <code>a</code> to <code>f</code>, and so on.</p>
+
+<h1>Critiques of Other Answers</h1>
+
+<p>Don't use what you see in the formerly accepted answer:</p>
+
+<pre><code>z = dict(x.items() + y.items())
+</code></pre>
+
+<p>In Python 2, you create two lists in memory for each dict, create a third list in memory with length equal to the length of the first two put together, and then discard all three lists to create the dict. <strong>In Python 3, this will fail</strong> because you're adding two <code>dict_items</code> objects together, not two lists - </p>
+
+<pre><code>&gt;&gt;&gt; c = dict(a.items() + b.items())
+Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+TypeError: unsupported operand type(s) for +: 'dict_items' and 'dict_items'
+</code></pre>
+
+<p>and you would have to explicitly create them as lists, e.g. <code>z = dict(list(x.items()) + list(y.items()))</code>. This is a waste of resources and computation power. </p>
+
+<p>Similarly, taking the union of <code>items()</code> in Python 3 (<code>viewitems()</code> in Python 2.7) will also fail when values are unhashable objects (like lists, for example). Even if your values are hashable, <strong>since sets are semantically unordered, the behavior is undefined in regards to precedence. So don't do this:</strong></p>
+
+<pre><code>&gt;&gt;&gt; c = dict(a.items() | b.items())
+</code></pre>
+
+<p>This example demonstrates what happens when values are unhashable:</p>
+
+<pre><code>&gt;&gt;&gt; x = {'a': []}
+&gt;&gt;&gt; y = {'b': []}
+&gt;&gt;&gt; dict(x.items() | y.items())
+Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+TypeError: unhashable type: 'list'
+</code></pre>
+
+<p>Here's an example where y should have precedence, but instead the value from x is retained due to the arbitrary order of sets:</p>
+
+<pre><code>&gt;&gt;&gt; x = {'a': 2}
+&gt;&gt;&gt; y = {'a': 1}
+&gt;&gt;&gt; dict(x.items() | y.items())
+{'a': 2}
+</code></pre>
+
+<p>Another hack you should not use:</p>
+
+<pre><code>z = dict(x, **y)
+</code></pre>
+
+<p>This uses the <code>dict</code> constructor, and is very fast and memory efficient (even slightly more-so than our two-step process) but unless you know precisely what is happening here (that is, the second dict is being passed as keyword arguments to the dict constructor), it's difficult to read, it's not the intended usage, and so it is not Pythonic. </p>
+
+<p>Here's an example of the usage being <a href=""https://code.djangoproject.com/attachment/ticket/13357/django-pypy.2.diff"" rel=""noreferrer"">remediated in django</a>.</p>
+
+<p>Dicts are intended to take hashable keys (e.g. frozensets or tuples), but <strong>this method fails in Python 3 when keys are not strings.</strong></p>
+
+<pre><code>&gt;&gt;&gt; c = dict(a, **b)
+Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+TypeError: keyword arguments must be strings
+</code></pre>
+
+<p>From the <a href=""https://mail.python.org/pipermail/python-dev/2010-April/099459.html"" rel=""noreferrer"">mailing list</a>, Guido van Rossum, the creator of the language, wrote:</p>
+
+<blockquote>
+  <p>I am fine with
+  declaring dict({}, **{1:3}) illegal, since after all it is abuse of
+  the ** mechanism.</p>
+</blockquote>
+
+<p>and </p>
+
+<blockquote>
+  <p>Apparently dict(x, **y) is going around as ""cool hack"" for ""call
+  x.update(y) and return x"". Personally I find it more despicable than
+  cool.</p>
+</blockquote>
+
+<p>It is my understanding (as well as the understanding of the <a href=""https://mail.python.org/pipermail/python-dev/2010-April/099485.html"" rel=""noreferrer"">creator of the language</a>) that the intended usage for <code>dict(**y)</code> is for creating dicts for readability purposes, e.g.:</p>
+
+<pre><code>dict(a=1, b=10, c=11)
+</code></pre>
+
+<p>instead of </p>
+
+<pre><code>{'a': 1, 'b': 10, 'c': 11}
+</code></pre>
+
+<h2>Response to comments</h2>
+
+<blockquote>
+  <p>Despite what Guido says, <code>dict(x, **y)</code> is in line with the dict specification, which btw. works for both Python 2 and 3. The fact that this only works for string keys is a direct consequence of how keyword parameters work and not a short-comming of dict. Nor is using the ** operator in this place an abuse of the mechanism, in fact ** was designed precisely to pass dicts as keywords. </p>
+</blockquote>
+
+<p>Again, it doesn't work for 3 when keys are non-strings. The implicit calling contract is that namespaces take ordinary dicts, while users must only pass keyword arguments that are strings. All other callables enforced it. <code>dict</code> broke this consistency in Python 2:</p>
+
+<pre><code>&gt;&gt;&gt; foo(**{('a', 'b'): None})
+Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+TypeError: foo() keywords must be strings
+&gt;&gt;&gt; dict(**{('a', 'b'): None})
+{('a', 'b'): None}
+</code></pre>
+
+<p>This inconsistency was bad given other implementations of Python (Pypy, Jython, IronPython). Thus it was fixed in Python 3, as this usage could be a breaking change.</p>
+
+<p>I submit to you that it is malicious incompetence to intentionally write code that only works in one version of a language or that only works given certain arbitrary constraints.</p>
+
+<p>Another comment:</p>
+
+<blockquote>
+  <p><code>dict(x.items() + y.items())</code> is still the most readable solution for Python 2. Readability counts. </p>
+</blockquote>
+
+<p>My response: <code>merge_two_dicts(x, y)</code> actually seems much clearer to me, if we're actually concerned about readability. And it is not forward compatible, as Python 2 is increasingly deprecated.</p>
+
+<h1>Less Performant But Correct Ad-hocs</h1>
+
+<p>These approaches are less performant, but they will provide correct behavior.
+They will be <em>much less</em> performant than <code>copy</code> and <code>update</code> or the new unpacking because they iterate through each key-value pair at a higher level of abstraction, but they <em>do</em> respect the order of precedence (latter dicts have precedence)</p>
+
+<p>You can also chain the dicts manually inside a dict comprehension:</p>
+
+<pre><code>{k: v for d in dicts for k, v in d.items()} # iteritems in Python 2.7
+</code></pre>
+
+<p>or in python 2.6 (and perhaps as early as 2.4 when generator expressions were introduced):</p>
+
+<pre><code>dict((k, v) for d in dicts for k, v in d.items())
+</code></pre>
+
+<p><code>itertools.chain</code> will chain the iterators over the key-value pairs in the correct order:</p>
+
+<pre><code>import itertools
+z = dict(itertools.chain(x.iteritems(), y.iteritems()))
+</code></pre>
+
+<h1>Performance Analysis</h1>
+
+<p>I'm only going to do the performance analysis of the usages known to behave correctly. </p>
+
+<pre><code>import timeit
+</code></pre>
+
+<p>The following is done on Ubuntu 14.04</p>
+
+<p>In Python 2.7 (system Python):</p>
+
+<pre><code>&gt;&gt;&gt; min(timeit.repeat(lambda: merge_two_dicts(x, y)))
+0.5726828575134277
+&gt;&gt;&gt; min(timeit.repeat(lambda: {k: v for d in (x, y) for k, v in d.items()} ))
+1.163769006729126
+&gt;&gt;&gt; min(timeit.repeat(lambda: dict(itertools.chain(x.iteritems(), y.iteritems()))))
+1.1614501476287842
+&gt;&gt;&gt; min(timeit.repeat(lambda: dict((k, v) for d in (x, y) for k, v in d.items())))
+2.2345519065856934
+</code></pre>
+
+<p>In Python 3.5 (deadsnakes PPA):</p>
+
+<pre><code>&gt;&gt;&gt; min(timeit.repeat(lambda: {**x, **y}))
+0.4094954460160807
+&gt;&gt;&gt; min(timeit.repeat(lambda: merge_two_dicts(x, y)))
+0.7881555100320838
+&gt;&gt;&gt; min(timeit.repeat(lambda: {k: v for d in (x, y) for k, v in d.items()} ))
+1.4525277839857154
+&gt;&gt;&gt; min(timeit.repeat(lambda: dict(itertools.chain(x.items(), y.items()))))
+2.3143140770262107
+&gt;&gt;&gt; min(timeit.repeat(lambda: dict((k, v) for d in (x, y) for k, v in d.items())))
+3.2069112799945287
+</code></pre>
+
+<h2>Resources on Dictionaries</h2>
+
+<ul>
+<li><a href=""https://stackoverflow.com/questions/327311/how-are-pythons-built-in-dictionaries-implemented/44509302#44509302"">My explanation of Python's <strong>dictionary implementation</strong>, updated for 3.6.</a></li>
+<li><a href=""https://stackoverflow.com/questions/1024847/add-new-keys-to-a-dictionary/27208535#27208535"">Answer on how to add new keys to a dictionary</a></li>
+<li><a href=""https://stackoverflow.com/questions/209840/map-two-lists-into-a-dictionary-in-python/33737067#33737067"">Mapping two lists into a dictionary</a></li>
+<li>The official Python <a href=""https://docs.python.org/3/tutorial/datastructures.html#dictionaries"" rel=""noreferrer"">docs on dictionaries</a> </li>
+<li><a href=""https://www.youtube.com/watch?v=66P5FMkWoVU"" rel=""noreferrer"">The Dictionary Even Mightier</a> - talk by Brandon Rhodes at Pycon 2017</li>
+<li><a href=""https://www.youtube.com/watch?v=npw4s1QTmPg"" rel=""noreferrer"">Modern Python Dictionaries, A Confluence of Great Ideas</a> - talk by Raymond Hettinger at Pycon 2017</li>
+</ul>
+","26853961"
+"Python add new item to dictionary","961587","","<p>I want to add an item to an existing dictionary in python. For example, this is my dictionary:</p>
+
+<pre><code>default_data = {
+            'item1': 1,
+            'item2': 2,
+}
+</code></pre>
+
+<p>I want to add new item such that:</p>
+
+<pre><code>default_data = default_data + {'item3':3}
+</code></pre>
+
+<p>How to achieve this?</p>
+","<pre><code>default_data['item3'] = 3
+</code></pre>
+
+<p>Easy as py.</p>
+
+<p>Another possible solution:</p>
+
+<pre><code>default_data.update({'item3': 3})
+</code></pre>
+
+<p>which is nice if you want to insert multiple items at once.</p>
+","6416142"
+"Find all files in a directory with extension .txt in Python","953242","","<p>How can I find all the files in a directory having the extension <code>.txt</code> in python?</p>
+","<p>You can use <a href=""https://docs.python.org/2/library/glob.html"" rel=""noreferrer""><code>glob</code></a>:</p>
+
+<pre><code>import glob, os
+os.chdir(""/mydir"")
+for file in glob.glob(""*.txt""):
+    print(file)
+</code></pre>
+
+<p>or simply <a href=""https://docs.python.org/2/library/os.html#os.listdir"" rel=""noreferrer""><code>os.listdir</code></a>:</p>
+
+<pre><code>import os
+for file in os.listdir(""/mydir""):
+    if file.endswith("".txt""):
+        print(os.path.join(""/mydir"", file))
+</code></pre>
+
+<p>or if you want to traverse directory, use <a href=""https://docs.python.org/2/library/os.html#os.walk"" rel=""noreferrer""><code>os.walk</code></a>:</p>
+
+<pre><code>import os
+for root, dirs, files in os.walk(""/mydir""):
+    for file in files:
+        if file.endswith("".txt""):
+             print(os.path.join(root, file))
+</code></pre>
+","3964691"
+"How do I copy a file in python?","951119","","<p>How do I copy a file in Python? I couldn't find anything under <a href=""https://docs.python.org/2/library/os.html"" rel=""noreferrer""><code>os</code></a>.</p>
+","<p><a href=""http://docs.python.org/2/library/shutil.html"" rel=""noreferrer""><code>shutil</code></a> has many methods you can use. One of which is:</p>
+
+<pre><code>from shutil import copyfile
+
+copyfile(src, dst)
+</code></pre>
+
+<p>Copy the contents of the file named <code>src</code> to a file named <code>dst</code>. The destination location must be writable; otherwise, an <code>IOError</code> exception will be raised. If <code>dst</code> already exists, it will be replaced. Special files such as character or block devices and pipes cannot be copied with this function. <code>src</code> and <code>dst</code> are path names given as strings. </p>
+","123212"
+"Terminating a Python script","940499","","<p>I am aware of the <code>die()</code> command in PHP which stops a script early.</p>
+
+<p>How can I do this in Python?</p>
+","<pre><code>import sys
+sys.exit()
+</code></pre>
+
+<p>details from the <a href=""https://docs.python.org/2/library/constants.html#exit"" rel=""noreferrer"" title=""exit""><code>sys</code> module documentation</a>:</p>
+
+<blockquote>
+  <p><code>sys.<strong>exit</strong>([<em>arg</em>])</code></p>
+  
+  <blockquote>
+    <p>Exit from Python. This is implemented by raising the
+    <a href=""https://docs.python.org/2/library/exceptions.html#SystemExit"" rel=""noreferrer"" title=""SystemExit""><code>SystemExit</code></a> exception, so cleanup actions specified by finally clauses
+    of <a href=""https://docs.python.org/2/reference/compound_stmts.html#try"" rel=""noreferrer"" title=""try""><code>try</code></a> statements are honored, and it is possible to intercept the
+    exit attempt at an outer level.</p>
+    
+    <p>The optional argument <em>arg</em> can be an integer giving the exit status
+    (defaulting to zero), or another type of object. If it is an integer,
+    zero is considered “successful termination” and any nonzero value is
+    considered “abnormal termination” by shells and the like. Most systems
+    require it to be in the range 0-127, and produce undefined results
+    otherwise. Some systems have a convention for assigning specific
+    meanings to specific exit codes, but these are generally
+    underdeveloped; Unix programs generally use 2 for command line syntax
+    errors and 1 for all other kind of errors. If another type of object
+    is passed, None is equivalent to passing zero, and any other object is
+    printed to <a href=""https://docs.python.org/2/library/sys.html#sys.stderr"" rel=""noreferrer"" title=""sys.stderr""><code>stderr</code></a> and results in an exit code of 1. In particular,
+    <code>sys.exit(""some error message"")</code> is a quick way to exit a program when
+    an error occurs.</p>
+    
+    <p>Since <a href=""https://docs.python.org/2/library/constants.html#exit"" rel=""noreferrer"" title=""exit""><code>exit()</code></a> ultimately “only” raises an exception, it will only exit
+    the process when called from the main thread, and the exception is not
+    intercepted.</p>
+  </blockquote>
+</blockquote>
+
+<p>Note that this is the 'nice' way to exit.  @<a href=""https://stackoverflow.com/questions/73663/terminating-a-python-script#76374"">glyphtwistedmatrix</a> below points out that if you want a 'hard exit', you can use os._exit(<em>errorcode</em>), though it's likely os-specific to some extent (it might not take an errorcode under windows, for example), and it definitely is less friendly since it doesn't let the interpreter do any cleanup before the process dies.</p>
+","73673"
+"Making a flat list out of list of lists in Python","938290","","<p>I wonder whether there is a shortcut to make a simple list out of list of lists in Python.</p>
+
+<p>I can do that in a for loop, but maybe there is some cool ""one-liner""? I tried it with <em>reduce</em>, but I get an error.</p>
+
+<p><strong>Code</strong></p>
+
+<pre><code>l = [[1, 2, 3], [4, 5, 6], [7], [8, 9]]
+reduce(lambda x, y: x.extend(y), l)
+</code></pre>
+
+<p><strong>Error message</strong></p>
+
+<pre><code>Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+  File ""&lt;stdin&gt;"", line 1, in &lt;lambda&gt;
+AttributeError: 'NoneType' object has no attribute 'extend'
+</code></pre>
+","<pre><code>flat_list = [item for sublist in l for item in sublist]
+</code></pre>
+
+<p>which means:</p>
+
+<pre><code>for sublist in l:
+    for item in sublist:
+        flat_list.append(item)
+</code></pre>
+
+<p>is faster than the shortcuts posted so far. (<code>l</code> is the list to flatten.)</p>
+
+<p>Here is a the corresponding function:</p>
+
+<pre><code>flatten = lambda l: [item for sublist in l for item in sublist]
+</code></pre>
+
+<p>For evidence, as always, you can use the <code>timeit</code> module in the standard library:</p>
+
+<pre><code>$ python -mtimeit -s'l=[[1,2,3],[4,5,6], [7], [8,9]]*99' '[item for sublist in l for item in sublist]'
+10000 loops, best of 3: 143 usec per loop
+$ python -mtimeit -s'l=[[1,2,3],[4,5,6], [7], [8,9]]*99' 'sum(l, [])'
+1000 loops, best of 3: 969 usec per loop
+$ python -mtimeit -s'l=[[1,2,3],[4,5,6], [7], [8,9]]*99' 'reduce(lambda x,y: x+y,l)'
+1000 loops, best of 3: 1.1 msec per loop
+</code></pre>
+
+<p>Explanation: the shortcuts based on <code>+</code> (including the implied use in <code>sum</code>) are, of necessity, <code>O(L**2)</code> when there are L sublists -- as the intermediate result list keeps getting longer, at each step a new intermediate result list object gets allocated, and all the items in the previous intermediate result must be copied over (as well as a few new ones added at the end). So (for simplicity and without actual loss of generality) say you have L sublists of I items each: the first I items are copied back and forth L-1 times, the second I items L-2 times, and so on; total number of copies is I times the sum of x for x from 1 to L excluded, i.e., <code>I * (L**2)/2</code>.</p>
+
+<p>The list comprehension just generates one list, once, and copies each item over (from its original place of residence to the result list) also exactly once.</p>
+","952952"
+"Python: Find in list","937579","","<p>I have come across this delightful:</p>
+
+<pre><code>item = someSortOfSelection()
+if item in myList:
+    doMySpecialFunction(item)
+</code></pre>
+
+<p>but sometimes it does not work with all my items, as if they weren't recognized in the list (when it's a list of string).</p>
+
+<p>is it the most 'pythonic' way of finding an item in a list: <code>if x in l:</code>?</p>
+","<p>As for your first question: that code is perfectly fine and should work if <code>item</code> equals one of the elements inside <code>myList</code>. Maybe you try to find a string that does not <em>exactly</em> match one of the items or maybe you are using a float value which suffers from inaccuracy.</p>
+
+<p>As for your second question: There's actually several possible ways if ""finding"" things in lists.</p>
+
+<h3>Checking if something is inside</h3>
+
+<p>This is the use case you describe: Checking whether something is inside a list or not. As you know, you can use the <code>in</code> operator for that:</p>
+
+<pre><code>3 in [1, 2, 3] # =&gt; True
+</code></pre>
+
+<h3>Filtering a collection</h3>
+
+<p>That is, finding all elements in a sequence that meet a certain condition. You can use list comprehension or generator expressions for that:</p>
+
+<pre><code>matches = [x for x in lst if fulfills_some_condition(x)]
+matches = (x for x in lst if x &gt; 6)
+</code></pre>
+
+<p>The latter will return a <em>generator</em> which you can imagine as a sort of lazy list that will only be built as soon as you iterate through it. By the way, the first one is exactly equivalent to</p>
+
+<pre><code>matches = filter(fulfills_some_condition, lst)
+</code></pre>
+
+<p>in Python 2. Here you can see higher-order functions at work. In Python 3, <code>filter</code> doesn't return a list, but a generator-like object.</p>
+
+<h3>Finding the first occurrence</h3>
+
+<p>If you only want the first thing that matches a condition (but you don't know what it is yet), it's fine to use a for loop (possibly using the <code>else</code> clause as well, which is not really well-known). You can also use</p>
+
+<pre><code>next(x for x in lst if ...)
+</code></pre>
+
+<p>which will return the first match or raise a <code>StopIteration</code> if none is found. Alternatively, you can use</p>
+
+<pre><code>next((x for x in lst if ...), [default value])
+</code></pre>
+
+<h3>Finding the location of an item</h3>
+
+<p>For lists, there's also the <code>index</code> method that can sometimes be useful if you want to know <em>where</em> a certain element is in the list:</p>
+
+<pre><code>[1,2,3].index(2) # =&gt; 1
+[1,2,3].index(4) # =&gt; ValueError
+</code></pre>
+
+<p>However, note that if you have duplicates, <code>.index</code> always returns the lowest index:......</p>
+
+<pre><code>[1,2,3,2].index(2) # =&gt; 1
+</code></pre>
+
+<p>If there are duplicates and you want all the indexes then you can use <code>enumerate()</code> instead:</p>
+
+<pre><code>[i for i,x in enumerate([1,2,3,2]) if x==2] # =&gt; [1, 3]
+</code></pre>
+","9542768"
+"Fastest way to check if a value exist in a list","932346","","<p>I'm searching for the fastest way to know if a value exists in a list (a list with millions of values in it) and what its index is? I know all values in the list are unique like my example.</p>
+
+<p><strong>My first methods I try is(3.8sec in my real code):</strong></p>
+
+<pre><code>a = [4,2,3,1,5,6]
+
+if a.count(7) == 1:
+    b=a.index(7)
+    ""Do something with variable b""
+</code></pre>
+
+<p><strong>My second methods I try is (2x faster:1.9sec on my real code):</strong></p>
+
+<pre><code>a = [4,2,3,1,5,6]
+
+try:
+    b=a.index(7)
+except ValueError:
+    ""Do nothing""
+else:
+    ""Do something with variable b""
+</code></pre>
+
+<p><strong>Proposed methods from Stackoverflow user (2.74sec on my real code):</strong></p>
+
+<pre><code>a = [4,2,3,1,5,6]
+if 7 in a:
+    a.index(7)
+</code></pre>
+
+<p>In my real code, first method take 3.81sec and the second methods take 1.88sec.
+It's a good improvement but:</p>
+
+<p>I'm a beginner with Python/scripting and I want to know if a fastest way exist to do the same things and save more process time?</p>
+
+<p><strong>More specific explication for my application:</strong></p>
+
+<p>In the API of blender a can access to a list of particles:</p>
+
+<pre><code>particles = [1,2,3,4...etc.]
+</code></pre>
+
+<p>From there , I can access to it's location:</p>
+
+<pre><code>particles[x].location = [x,y,z]
+</code></pre>
+
+<p>And I test for each particles if a neighbour exist by searching
+in the location of each particles like:</p>
+
+<pre><code>if [x+1,y,z] in particles.location
+    ""find the identity of this neighbour particles in x:the index 
+    of the particles array""
+    particles.index([x+1,y,z])
+</code></pre>
+","<pre><code>7 in a
+</code></pre>
+
+<p>Clearest and fastest way to do it.</p>
+
+<p>You can also consider using a <code>set</code>, but constructing that set from your list may take more time than faster membership testing will save. The only way to be certain is to benchmark well. (this also depends on what operations you require)</p>
+","7571665"
+"Is there a simple way to delete a list element by value?","928972","","<pre><code>a=[1,2,3,4]
+b=a.index(6)
+del a[b]
+print a
+</code></pre>
+
+<p>The above shows the following error:</p>
+
+<pre class=""lang-none prettyprint-override""><code>Traceback (most recent call last):
+  File ""D:\zjm_code\a.py"", line 6, in &lt;module&gt;
+    b=a.index(6)
+ValueError: list.index(x): x not in list
+</code></pre>
+
+<p>So I have to do this:</p>
+
+<pre><code>a=[1,2,3,4]
+try:
+    b=a.index(6)
+    del a[b]
+except:
+    pass
+print a
+</code></pre>
+
+<p>But is there not a simpler way to do this?</p>
+","<p>To remove an element's first occurrence in a list, simply use <code>list.remove</code>:</p>
+
+<pre><code>&gt;&gt;&gt; a = ['a', 'b', 'c', 'd']
+&gt;&gt;&gt; a.remove('b')
+&gt;&gt;&gt; print a
+['a', 'c', 'd']
+</code></pre>
+
+<p>Mind that it does not remove all occurrences of your element. Use a list comprehension for that.</p>
+
+<pre><code>&gt;&gt;&gt; a = [1, 2, 3, 4, 2, 3, 4, 2, 7, 2]
+&gt;&gt;&gt; a = [x for x in a if x != 2]
+&gt;&gt;&gt; print a
+[1, 3, 4, 3, 4, 7]
+</code></pre>
+","2793341"
+"Is there a ""not equal"" operator in Python?","909274","","<p>How would you say does not equal?</p>
+
+<p>Like </p>
+
+<pre><code>if hi == hi:
+    print ""hi""
+elif hi (does not equal) bye:
+    print ""no hi""
+</code></pre>
+
+<p>Is there a replacement for <code>==</code> that means ""not equal""?</p>
+","<p>Use <code>!=</code>. See <a href=""http://docs.python.org/release/2.5.2/lib/comparisons.html"" rel=""noreferrer"">comparison operators</a>. For comparing object identities, you can use the keyword <code>is</code> and its negation <code>is not</code>.</p>
+
+<p>e.g.</p>
+
+<pre><code>1 == 1 #  -&gt; True
+1 != 1 #  -&gt; False
+[] is [] #-&gt; False (distinct objects)
+a = b = []; a is b # -&gt; True (same object)
+</code></pre>
+","11060508"
+"UnicodeEncodeError: 'ascii' codec can't encode character u'\xa0' in position 20: ordinal not in range(128)","901172","","<p>I'm having problems dealing with unicode characters from text fetched from different web pages (on different sites). I am using BeautifulSoup. </p>
+
+<p>The problem is that the error is not always reproducible; it sometimes works with some pages, and sometimes, it barfs by throwing a <code>UnicodeEncodeError</code>. I have tried just about everything I can think of, and yet I have not found anything that works consistently without throwing some kind of Unicode-related error.</p>
+
+<p>One of the sections of code that is causing problems is shown below:</p>
+
+<pre><code>agent_telno = agent.find('div', 'agent_contact_number')
+agent_telno = '' if agent_telno is None else agent_telno.contents[0]
+p.agent_info = str(agent_contact + ' ' + agent_telno).strip()
+</code></pre>
+
+<p>Here is a stack trace produced on SOME strings when the snippet above is run:</p>
+
+<pre><code>Traceback (most recent call last):
+  File ""foobar.py"", line 792, in &lt;module&gt;
+    p.agent_info = str(agent_contact + ' ' + agent_telno).strip()
+UnicodeEncodeError: 'ascii' codec can't encode character u'\xa0' in position 20: ordinal not in range(128)
+</code></pre>
+
+<p>I suspect that this is because some pages (or more specifically, pages from some of the sites) may be encoded, whilst others may be unencoded. All the sites are based in the UK and provide data meant for UK consumption - so there are no issues relating to internalization or dealing with text written in anything other than English.</p>
+
+<p>Does anyone have any ideas as to how to solve this so that I can CONSISTENTLY fix this problem?</p>
+","<p>You need to read the Python <a href=""https://docs.python.org/2.7/howto/unicode.html"" rel=""noreferrer"">Unicode HOWTO</a>. This error is the <a href=""https://docs.python.org/2.7/howto/unicode.html#the-unicode-type"" rel=""noreferrer"">very first example</a>.</p>
+
+<p>Basically, stop using <code>str</code> to convert from unicode to encoded text / bytes.</p>
+
+<p>Instead, properly use <a href=""http://docs.python.org/library/stdtypes.html#str.encode"" rel=""noreferrer""><code>.encode()</code></a> to encode the string:</p>
+
+<pre><code>p.agent_info = u' '.join((agent_contact, agent_telno)).encode('utf-8').strip()
+</code></pre>
+
+<p>or work entirely in unicode.</p>
+","9942822"
+"Python join: why is it string.join(list) instead of list.join(string)?","897459","","<p>This has always confused me. It seems like this would be nicer:</p>
+
+<pre><code>my_list = [""Hello"", ""world""]
+print my_list.join(""-"")
+# Produce: ""Hello-world""
+</code></pre>
+
+<p>Than this:</p>
+
+<pre><code>my_list = [""Hello"", ""world""]
+print ""-"".join(my_list)
+# Produce: ""Hello-world""
+</code></pre>
+
+<p>Is there a specific reason it is like this?</p>
+","<p>It's because any iterable can be joined, not just lists, but the result and the ""joiner"" are always strings.</p>
+
+<p>E.G:</p>
+
+<pre><code>import urllib2
+print '\n############\n'.join(
+    urllib2.urlopen('http://data.stackexchange.com/users/7095'))
+</code></pre>
+","493842"
+"Python remove all whitespace in a string","890756","","<p>I want to eliminate all the whitespace from a string, on both ends, and in between words.</p>
+
+<p>I have this Python code:</p>
+
+<pre><code>def my_handle(self):
+    sentence = ' hello  apple  '
+    sentence.strip()
+</code></pre>
+
+<p>But that only eliminates the whitespace on both sides of the string. How do I remove all whitespace?</p>
+","<p>If you want to remove leading and ending spaces, use <a href=""http://docs.python.org/2/library/stdtypes.html#str.strip"" rel=""noreferrer""><code>str.strip()</code></a>: </p>
+
+<pre><code>sentence = ' hello  apple'
+sentence.strip()
+&gt;&gt;&gt; 'hello  apple'
+</code></pre>
+
+<p>If you want to remove all spaces, use <a href=""http://docs.python.org/2/library/stdtypes.html#str.replace"" rel=""noreferrer""><code>str.replace()</code></a>:</p>
+
+<pre><code>sentence = ' hello  apple'
+sentence.replace("" "", """")
+&gt;&gt;&gt; 'helloapple'
+</code></pre>
+
+<p>If you want to remove duplicated spaces, use <a href=""http://docs.python.org/2/library/stdtypes.html#str.split"" rel=""noreferrer""><code>str.split()</code></a>:</p>
+
+<pre><code>sentence = ' hello  apple'
+"" "".join(sentence.split())
+&gt;&gt;&gt; 'hello apple'
+</code></pre>
+","8270146"
+"How do I check what version of Python is running my script?","889153","","<p>How can I check what version of the Python Interpreter is interpreting my script?</p>
+","<p>This information is available in the <a href=""http://docs.python.org/2/library/sys.html#sys.version"" rel=""noreferrer"">sys.version</a> string in the <a href=""http://docs.python.org/2/library/sys.html"" rel=""noreferrer"">sys</a> module:</p>
+
+<pre><code>&gt;&gt;&gt; import sys
+</code></pre>
+
+<p>Human readable:</p>
+
+<pre><code>&gt;&gt;&gt; print (sys.version) #parentheses necessary in python 3.       
+2.5.2 (r252:60911, Jul 31 2008, 17:28:52) 
+[GCC 4.2.3 (Ubuntu 4.2.3-2ubuntu7)]
+</code></pre>
+
+<p>For further processing:</p>
+
+<pre><code>&gt;&gt;&gt; sys.version_info
+(2, 5, 2, 'final', 0)
+# or
+&gt;&gt;&gt; sys.hexversion
+34014192
+</code></pre>
+
+<p>To ensure a script runs with a minimal version requirement of the Python interpreter add this to your code:</p>
+
+<pre><code>assert sys.version_info &gt;= (2,5)
+</code></pre>
+
+<p>This compares major and minor version information. Add micro (=<code>0</code>, <code>1</code>, etc) and even releaselevel (=<code>'alpha'</code>,<code>'final'</code>, etc) to the tuple as you like. Note however, that it is almost always better to ""duck"" check if a certain feature is there, and if not, workaround (or bail out). Sometimes features go away in newer releases, being replaced by others.</p>
+","1093331"
+"Way to create multiline comments in Python?","888715","","<p>I have recently started studying <a href=""http://en.wikipedia.org/wiki/Python_%28programming_language%29"" rel=""noreferrer"">Python</a>, but I couldn't find how to implement multi-line comments. Most languages have block comment symbols like </p>
+
+<pre><code>/* 
+
+*/
+</code></pre>
+
+<p>I tried this in Python, but it throws an error, so this probably is not the correct way. Does Python actually have a multiline comment feature?</p>
+","<p>You can use triple-quoted strings. When they're not a docstring (first thing in a class/function/module), they are ignored. </p>
+
+<pre><code>'''
+This is a multiline
+comment.
+'''
+</code></pre>
+
+<p>(Make sure to indent the leading <code>'''</code> appropriately to avoid an <code>IndentationError</code>.)</p>
+
+<p>Guido van Rossum (creator of Python) <a href=""https://twitter.com/gvanrossum/status/112670605505077248"" rel=""noreferrer"">tweeted this</a> as a ""pro tip"".</p>
+
+<p>However, Python's style guide, PEP8, <a href=""http://www.python.org/dev/peps/pep-0008/#block-comments"" rel=""noreferrer"">favors using consecutive single-line comments</a>, and this is also what you'll find in many projects. Editors usually have a shortcut to do this easily.</p>
+","7696966"
+"Convert bytes to a string?","880995","","<p>I'm using this code to get standard output from an external program:</p>
+
+<pre><code>&gt;&gt;&gt; from subprocess import *
+&gt;&gt;&gt; command_stdout = Popen(['ls', '-l'], stdout=PIPE).communicate()[0]
+</code></pre>
+
+<p>The communicate() method returns an array of bytes:</p>
+
+<pre><code>&gt;&gt;&gt; command_stdout
+b'total 0\n-rw-rw-r-- 1 thomas thomas 0 Mar  3 07:03 file1\n-rw-rw-r-- 1 thomas thomas 0 Mar  3 07:03 file2\n'
+</code></pre>
+
+<p>However, I'd like to work with the output as a normal Python string. So that I could print it like this:</p>
+
+<pre><code>&gt;&gt;&gt; print(command_stdout)
+-rw-rw-r-- 1 thomas thomas 0 Mar  3 07:03 file1
+-rw-rw-r-- 1 thomas thomas 0 Mar  3 07:03 file2
+</code></pre>
+
+<p>I thought that's what the <a href=""http://docs.python.org/3.0/library/binascii.html?highlight=b2a#binascii.b2a_qp"" rel=""noreferrer"">binascii.b2a_qp()</a> method is for, but when I tried it, I got the same byte array again:</p>
+
+<pre><code>&gt;&gt;&gt; binascii.b2a_qp(command_stdout)
+b'total 0\n-rw-rw-r-- 1 thomas thomas 0 Mar  3 07:03 file1\n-rw-rw-r-- 1 thomas thomas 0 Mar  3 07:03 file2\n'
+</code></pre>
+
+<p>Does anybody know how to convert the bytes value back to string? I mean, using the ""batteries"" instead of doing it manually. And I'd like it to be ok with Python 3.</p>
+","<p>You need to decode the bytes object to produce a string:</p>
+
+<pre><code>&gt;&gt;&gt; b""abcde""
+b'abcde'
+
+# utf-8 is used here because it is a very common encoding, but you
+# need to use the encoding your data is actually in.
+&gt;&gt;&gt; b""abcde"".decode(""utf-8"") 
+'abcde'
+</code></pre>
+","606199"
+"Python error ""ImportError: No module named""","877201","","<p>Python is installed in a local directory.  </p>
+
+<p>My directory tree looks like this:</p>
+
+<pre><code>(local directory)/site-packages/toolkit/interface.py
+</code></pre>
+
+<p>My code is in here:</p>
+
+<pre><code>(local directory)/site-packages/toolkit/examples/mountain.py
+</code></pre>
+
+<p>To run the example, I write <code>python mountain.py</code>, and in the code I have:</p>
+
+<pre><code>from toolkit.interface import interface
+</code></pre>
+
+<p>And I get the error:</p>
+
+<pre><code>Traceback (most recent call last):
+  File ""mountain.py"", line 28, in ?
+    from toolkit.interface import interface
+ImportError: No module named toolkit.interface
+</code></pre>
+
+<p>I have already checked <code>sys.path</code> and there I have the directory <code>/site-packages</code>. Also, I have the file <code>__init__.py.bin</code> in the toolkit folder to indicate to Python that this is a package. I also have a <code>__init__.py.bin</code> in the examples directory.</p>
+
+<p>I do not know why Python cannot find the file when it is in <code>sys.path</code>.  Any ideas?  Can it be a permissions problem?  Do I need some execution permission?</p>
+","<p>Based on your comments to orip's post, I guess this is what happened:</p>
+
+<ol>
+<li>You edited <code>__init__.py</code> on windows.</li>
+<li>The windows editor added something non-printing, perhaps a carriage-return (end-of-line in Windows is CR/LF; in unix it is LF only), or perhaps a CTRL-Z (windows end-of-file).</li>
+<li>You used WinSCP to copy the file to your unix box.</li>
+<li>WinSCP thought: ""This has something that's not basic text; I'll put a .bin extension to indicate binary data.""</li>
+<li>The missing <code>__init__.py</code> (now called <code>__init__.py.bin</code>) means python doesn't understand toolkit as a package.</li>
+<li>You create <code>__init__.py</code> in the appropriate directory and everything works... ?</li>
+</ol>
+","339220"
+"How do I check if a string is a number (float)?","863853","","<p>What is the best possible way to check if a string can be represented as a number in Python? </p>
+
+<p>The function I currently have right now is:</p>
+
+<pre><code>def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+</code></pre>
+
+<p>Which, not only is ugly and slow, seems clunky. However I haven't found a better method because calling <code>float</code> in the main function is even worse. </p>
+","<blockquote>
+  <p>Which, not only is ugly and slow</p>
+</blockquote>
+
+<p>I'd dispute both.</p>
+
+<p>A regex or other string parsing would be uglier and slower.  </p>
+
+<p>I'm not sure that anything much could be faster than the above.  It calls the function and returns.  Try/Catch doesn't introduce much overhead because the most common exception is caught without an extensive search of stack frames.</p>
+
+<p>The issue is that any numeric conversion function has two kinds of results</p>
+
+<ul>
+<li>A number, if the number is valid</li>
+<li>A status code (e.g., via errno) or exception to show that no valid number could be parsed.</li>
+</ul>
+
+<p>C (as an example) hacks around this a number of ways.  Python lays it out clearly and explicitly.</p>
+
+<p>I think your code for doing this is perfect.</p>
+","354130"
+"Manually raising (throwing) an exception in Python","863170","","<p>How can I raise an exception in Python so that it can later be caught via an <code>except</code> block?</p>
+","<blockquote>
+  <h2>How do I manually throw/raise an exception in Python?</h2>
+</blockquote>
+
+<p><a href=""https://docs.python.org/3/library/exceptions.html#exception-hierarchy"" rel=""noreferrer"">Use the most specific Exception constructor that semantically fits your issue</a>.  </p>
+
+<p>Be specific in your message, e.g.:</p>
+
+<pre><code>raise ValueError('A very specific bad thing happened.')
+</code></pre>
+
+<h2>Don't raise generic exceptions</h2>
+
+<p>Avoid raising a generic Exception. To catch it, you'll have to catch all other more specific exceptions that subclass it.</p>
+
+<h3>Problem 1: Hiding bugs</h3>
+
+<pre><code>raise Exception('I know Python!') # Don't! If you catch, likely to hide bugs.
+</code></pre>
+
+<p>For example:</p>
+
+<pre><code>def demo_bad_catch():
+    try:
+        raise ValueError('Represents a hidden bug, do not catch this')
+        raise Exception('This is the exception you expect to handle')
+    except Exception as error:
+        print('Caught this error: ' + repr(error))
+
+&gt;&gt;&gt; demo_bad_catch()
+Caught this error: ValueError('Represents a hidden bug, do not catch this',)
+</code></pre>
+
+<h3>Problem 2: Won't catch</h3>
+
+<p>and more specific catches won't catch the general exception:</p>
+
+<pre><code>def demo_no_catch():
+    try:
+        raise Exception('general exceptions not caught by specific handling')
+    except ValueError as e:
+        print('we will not catch exception: Exception')
+
+
+&gt;&gt;&gt; demo_no_catch()
+Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+  File ""&lt;stdin&gt;"", line 3, in demo_no_catch
+Exception: general exceptions not caught by specific handling
+</code></pre>
+
+<h2>Best Practices: <code>raise</code> statement</h2>
+
+<p><a href=""https://docs.python.org/3/library/exceptions.html#exception-hierarchy"" rel=""noreferrer"">Instead, use the most specific Exception constructor that semantically fits your issue</a>.</p>
+
+<pre><code>raise ValueError('A very specific bad thing happened')
+</code></pre>
+
+<p>which also handily allows an arbitrary number of arguments to be passed to the constructor:</p>
+
+<pre><code>raise ValueError('A very specific bad thing happened', 'foo', 'bar', 'baz') 
+</code></pre>
+
+<p>These arguments are accessed by the <code>args</code> attribute on the Exception object. For example:</p>
+
+<pre><code>try:
+    some_code_that_may_raise_our_value_error()
+except ValueError as err:
+    print(err.args)
+</code></pre>
+
+<p>prints </p>
+
+<pre><code>('message', 'foo', 'bar', 'baz')    
+</code></pre>
+
+<p>In Python 2.5, an actual <code>message</code> attribute was added to BaseException in favor of encouraging users to subclass Exceptions and stop using <code>args</code>, but <a href=""http://www.python.org/dev/peps/pep-0352/#retracted-ideas"" rel=""noreferrer"">the introduction of <code>message</code> and the original deprecation of args has been retracted</a>.</p>
+
+<h2>Best Practices: <code>except</code> clause</h2>
+
+<p>When inside an except clause, you might want to, for example, log that a specific type of error happened, and then re-raise. The best way to do this while preserving the stack trace is to use a bare raise statement. For example:</p>
+
+<pre><code>logger = logging.getLogger(__name__)
+
+try:
+    do_something_in_app_that_breaks_easily()
+except AppError as error:
+    logger.error(error)
+    raise                 # just this!
+    # raise AppError      # Don't do this, you'll lose the stack trace!
+</code></pre>
+
+<h3>Don't modify your errors... but if you insist.</h3>
+
+<p>You can preserve the stacktrace (and error value) with <code>sys.exc_info()</code>, but <strong>this is way more error prone</strong> and <strong>has compatibility problems between Python 2 and 3</strong>, prefer to use a bare <code>raise</code> to re-raise. </p>
+
+<p>To explain - the <code>sys.exc_info()</code> returns the type, value, and traceback. </p>
+
+<pre><code>type, value, traceback = sys.exc_info()
+</code></pre>
+
+<p>This is the syntax in Python 2 - note this is not compatible with Python 3:</p>
+
+<pre><code>    raise AppError, error, sys.exc_info()[2] # avoid this.
+    # Equivalently, as error *is* the second object:
+    raise sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2]
+</code></pre>
+
+<p>If you want to, you can modify what happens with your new raise - e.g. setting new args for the instance:</p>
+
+<pre><code>def error():
+    raise ValueError('oops!')
+
+def catch_error_modify_message():
+    try:
+        error()
+    except ValueError:
+        error_type, error_instance, traceback = sys.exc_info()
+        error_instance.args = (error_instance.args[0] + ' &lt;modification&gt;',)
+        raise error_type, error_instance, traceback
+</code></pre>
+
+<p>And we have preserved the whole traceback while modifying the args. Note that this is <strong>not a best practice</strong> and it is <strong>invalid syntax</strong> in Python 3 (making keeping compatibility much harder to work around).</p>
+
+<pre><code>&gt;&gt;&gt; catch_error_modify_message()
+Traceback (most recent call last):
+  File ""&lt;stdin&gt;"", line 1, in &lt;module&gt;
+  File ""&lt;stdin&gt;"", line 3, in catch_error_modify_message
+  File ""&lt;stdin&gt;"", line 2, in error
+ValueError: oops! &lt;modification&gt;
+</code></pre>
+
+<p>In <a href=""https://docs.python.org/3/reference/simple_stmts.html#the-raise-statement"" rel=""noreferrer"">Python 3</a>:</p>
+
+<pre><code>    raise error.with_traceback(sys.exc_info()[2])
+</code></pre>
+
+<p>Again: avoid manually manipulating tracebacks. It's <a href=""https://docs.python.org/2/reference/simple_stmts.html#the-raise-statement"" rel=""noreferrer"">less efficient</a> and more error prone. And if you're using threading and <code>sys.exc_info</code> you may even get the wrong traceback (especially if you're using exception handling for control flow - which I'd personally tend to avoid.)</p>
+
+<h3>Python 3, Exception chaining</h3>
+
+<p>In Python 3, you can chain Exceptions, which preserve tracebacks:</p>
+
+<pre><code>    raise RuntimeError('specific message') from error
+</code></pre>
+
+<p>Be aware:</p>
+
+<ul>
+<li>this <em>does</em> allow changing the error type raised, and</li>
+<li>this is <em>not</em> compatible with Python 2.</li>
+</ul>
+
+<h3>Deprecated Methods:</h3>
+
+<p>These can easily hide and even get into production code. You want to raise an exception, and doing them will raise an exception, <strong>but not the one intended!</strong></p>
+
+<p><a href=""http://www.python.org/dev/peps/pep-3109/"" rel=""noreferrer"">Valid in Python 2, but not in Python 3</a> is the following:</p>
+
+<pre><code>raise ValueError, 'message' # Don't do this, it's deprecated!
+</code></pre>
+
+<p>Only <a href=""https://docs.python.org/2/whatsnew/2.5.html#pep-352-exceptions-as-new-style-classes"" rel=""noreferrer"">valid in much older versions of Python</a> (2.4 and lower), you may still see people raising strings:</p>
+
+<pre><code>raise 'message' # really really wrong. don't do this.
+</code></pre>
+
+<p>In all modern versions, this will actually raise a TypeError, because you're not raising a BaseException type. If you're not checking for the right exception and don't have a reviewer that's aware of the issue, it could get into production.</p>
+
+<h2>Example Usage</h2>
+
+<p>I raise Exceptions to warn consumers of my API if they're using it incorrectly:</p>
+
+<pre><code>def api_func(foo):
+    '''foo should be either 'baz' or 'bar'. returns something very useful.'''
+    if foo not in _ALLOWED_ARGS:
+        raise ValueError('{foo} wrong, use ""baz"" or ""bar""'.format(foo=repr(foo)))
+</code></pre>
+
+<h2>Create your own error types when apropos</h2>
+
+<blockquote>
+  <p><strong>""I want to make an error on purpose, so that it would go into the except""</strong></p>
+</blockquote>
+
+<p>You can create your own error types, if you want to indicate something specific is wrong with your application, just subclass the appropriate point in the exception hierarchy:</p>
+
+<pre><code>class MyAppLookupError(LookupError):
+    '''raise this when there's a lookup error for my app'''
+</code></pre>
+
+<p>and usage:</p>
+
+<pre><code>if important_key not in resource_dict and not ok_to_be_missing:
+    raise MyAppLookupError('resource is missing, and that is not ok.')
+</code></pre>
+","24065533"
+"Comment out a Python code block","862873","","<p>Is there a mechanism to comment out large blocks of Python code?</p>
+
+<p>Right now, the only ways I can see of commenting out code are to either start every line with a <code>#</code>, or to enclose the code in triple quotes: <code>""""""</code>.</p>
+
+<p>The problem with these is that inserting <code>#</code> before every line is cumbersome and <code>""""""</code> makes the string I want to use as a comment show up in generated documentation.</p>
+
+<p>After reading all comments, the answer seems to be ""No"".</p>
+","<p>Python does not have such a mechanism. Prepend a <code>#</code> to each line to block comment. For more information see <a href=""http://www.python.org/dev/peps/pep-0008/"" rel=""noreferrer"">PEP 8</a>. Most Python IDEs support a mechanism to do the block-commenting-with-pound-signs automatically for you. For example, in IDLE on my machine, it's <kbd>Alt</kbd>+<kbd>3</kbd> and <kbd>Alt</kbd>+<kbd>4</kbd>.</p>
+
+<p><strong>Don't use triple-quotes;</strong> as you discovered, this is for documentation strings not block comments, although it has a similar effect. If you're just commenting things out temporarily, this is fine as a temporary measure.</p>
+","675448"
+"Access environment variables from Python","861625","","<p>I set an environment variable that I want to access in my Python application.  How do I get this value?</p>
+","<p>Environment variables are accessed through <a href=""http://docs.python.org/2/library/os.html#process-parameters"" rel=""noreferrer"">os.environ</a></p>
+
+<pre><code>import os
+print os.environ['HOME']
+</code></pre>
+
+<p>Or you can see a list of all the environment variables using:</p>
+
+<pre><code>os.environ
+</code></pre>
+
+<p>As sometimes you might need to see a complete list!</p>
+
+<pre><code># using get will return `None` if a key is not present rather than raise a `KeyError`
+print os.environ.get('KEY_THAT_MIGHT_EXIST')
+
+# os.getenv is equivalent, and can also give a default value instead of `None`
+print os.getenv('KEY_THAT_MIGHT_EXIST', default_value)
+</code></pre>
+
+<p><a href=""http://docs.python.org/install/index.html#how-installation-works"" rel=""noreferrer"">Python default installation</a> on Windows is <code>C:\Python</code>. If you want to find out while running python you can do:</p>
+
+<pre><code>import sys
+print sys.prefix
+</code></pre>
+","4907053"
+"How do I pass a variable by reference?","852590","","<p>The Python documentation seems unclear about whether parameters are passed by reference or value, and the following code produces the unchanged value 'Original'</p>
+
+<pre><code>class PassByReference:
+    def __init__(self):
+        self.variable = 'Original'
+        self.change(self.variable)
+        print(self.variable)
+
+    def change(self, var):
+        var = 'Changed'
+</code></pre>
+
+<p>Is there something I can do to pass the variable by actual reference?</p>
+","<p>Arguments are <a href=""http://docs.python.org/3/faq/programming.html#how-do-i-write-a-function-with-output-parameters-call-by-reference"" rel=""noreferrer"">passed by assignment</a>. The rationale behind this is twofold:</p>
+
+<ol>
+<li>the parameter passed in is actually a <em>reference</em> to an object (but the reference is passed by value)</li>
+<li>some data types are mutable, but others aren't</li>
+</ol>
+
+<p>So:</p>
+
+<ul>
+<li><p>If you pass a <em>mutable</em> object into a method, the method gets a reference to that same object and you can mutate it to your heart's delight, but if you rebind the reference in the method, the outer scope will know nothing about it, and after you're done, the outer reference will still point at the original object. </p></li>
+<li><p>If you pass an <em>immutable</em> object to a method, you still can't rebind the outer reference, and you can't even mutate the object.</p></li>
+</ul>
+
+<p>To make it even more clear, let's have some examples. </p>
+
+<h2>List - a mutable type</h2>
+
+<p><strong>Let's try to modify the list that was passed to a method:</strong></p>
+
+<pre><code>def try_to_change_list_contents(the_list):
+    print('got', the_list)
+    the_list.append('four')
+    print('changed to', the_list)
+
+outer_list = ['one', 'two', 'three']
+
+print('before, outer_list =', outer_list)
+try_to_change_list_contents(outer_list)
+print('after, outer_list =', outer_list)
+</code></pre>
+
+<p>Output:</p>
+
+<pre class=""lang-none prettyprint-override""><code>before, outer_list = ['one', 'two', 'three']
+got ['one', 'two', 'three']
+changed to ['one', 'two', 'three', 'four']
+after, outer_list = ['one', 'two', 'three', 'four']
+</code></pre>
+
+<p>Since the parameter passed in is a reference to <code>outer_list</code>, not a copy of it, we can use the mutating list methods to change it and have the changes reflected in the outer scope.</p>
+
+<p><strong>Now let's see what happens when we try to change the reference that was passed in as a parameter:</strong></p>
+
+<pre><code>def try_to_change_list_reference(the_list):
+    print('got', the_list)
+    the_list = ['and', 'we', 'can', 'not', 'lie']
+    print('set to', the_list)
+
+outer_list = ['we', 'like', 'proper', 'English']
+
+print('before, outer_list =', outer_list)
+try_to_change_list_reference(outer_list)
+print('after, outer_list =', outer_list)
+</code></pre>
+
+<p>Output:</p>
+
+<pre class=""lang-none prettyprint-override""><code>before, outer_list = ['we', 'like', 'proper', 'English']
+got ['we', 'like', 'proper', 'English']
+set to ['and', 'we', 'can', 'not', 'lie']
+after, outer_list = ['we', 'like', 'proper', 'English']
+</code></pre>
+
+<p>Since the <code>the_list</code> parameter was passed by value, assigning a new list to it had no effect that the code outside the method could see. The <code>the_list</code> was a copy of the <code>outer_list</code> reference, and we had <code>the_list</code> point to a new list, but there was no way to change where <code>outer_list</code> pointed.</p>
+
+<h2>String - an immutable type</h2>
+
+<p><strong>It's immutable, so there's nothing we can do to change the contents of the string</strong></p>
+
+<p><strong>Now, let's try to change the reference</strong></p>
+
+<pre><code>def try_to_change_string_reference(the_string):
+    print('got', the_string)
+    the_string = 'In a kingdom by the sea'
+    print('set to', the_string)
+
+outer_string = 'It was many and many a year ago'
+
+print('before, outer_string =', outer_string)
+try_to_change_string_reference(outer_string)
+print('after, outer_string =', outer_string)
+</code></pre>
+
+<p>Output:</p>
+
+<pre class=""lang-none prettyprint-override""><code>before, outer_string = It was many and many a year ago
+got It was many and many a year ago
+set to In a kingdom by the sea
+after, outer_string = It was many and many a year ago
+</code></pre>
+
+<p>Again, since the <code>the_string</code> parameter was passed by value, assigning a new string to it had no effect that the code outside the method could see. The <code>the_string</code> was a copy of the <code>outer_string</code> reference, and we had <code>the_string</code> point to a new string, but there was no way to change where <code>outer_string</code> pointed.</p>
+
+<p>I hope this clears things up a little.</p>
+
+<p><strong>EDIT:</strong> It's been noted that this doesn't answer the question that @David originally asked, ""Is there something I can do to pass the variable by actual reference?"". Let's work on that.</p>
+
+<h2>How do we get around this?</h2>
+
+<p>As @Andrea's answer shows, you could return the new value. This doesn't change the way things are passed in, but does let you get the information you want back out:</p>
+
+<pre><code>def return_a_whole_new_string(the_string):
+    new_string = something_to_do_with_the_old_string(the_string)
+    return new_string
+
+# then you could call it like
+my_string = return_a_whole_new_string(my_string)
+</code></pre>
+
+<p>If you really wanted to avoid using a return value, you could create a class to hold your value and pass it into the function or use an existing class, like a list:</p>
+
+<pre><code>def use_a_wrapper_to_simulate_pass_by_reference(stuff_to_change):
+    new_string = something_to_do_with_the_old_string(stuff_to_change[0])
+    stuff_to_change[0] = new_string
+
+# then you could call it like
+wrapper = [my_string]
+use_a_wrapper_to_simulate_pass_by_reference(wrapper)
+
+do_something_with(wrapper[0])
+</code></pre>
+
+<p>Although this seems a little cumbersome.</p>
+","986145"
+"How to clone or copy a list?","849259","","<p>What are the options to clone or copy a list in Python?</p>
+
+<p>Using <code>new_list = my_list</code> then modifies <code>new_list</code> every time <code>my_list</code> changes.<br>
+Why is this?</p>
+","<p>With <code>new_list = my_list</code>, you don't actually have two lists. The assignment just copies the reference to the list, not the actual list, so both <code>new_list</code> and <code>my_list</code> refer to the same list after the assignment.</p>
+
+<p>To actually copy the list, you have various possibilities:</p>
+
+<ul>
+<li><p>You can slice it: </p>
+
+<pre><code>new_list = old_list[:]
+</code></pre>
+
+<p><a href=""https://en.wikipedia.org/wiki/Alex_Martelli"" rel=""noreferrer"" title=""Alex Martelli"">Alex Martelli's</a> opinion (at least <a href=""https://www.youtube.com/watch?v=g7V89K8QfgQ"" rel=""noreferrer"" title=""Bay Area Python Interest Group August 2007 Meeting"">back in 2007</a>) about this is, that <em>it is a weird syntax and it does not make sense to use it ever</em>. ;) (In his opinion, the next one is more readable).</p></li>
+<li><p>You can use the built in <a href=""https://docs.python.org/2/library/functions.html#list"" rel=""noreferrer"" title=""list""><code>list()</code></a> function:</p>
+
+<pre><code>new_list = list(old_list)
+</code></pre></li>
+<li><p>You can use generic <a href=""https://docs.python.org/2/library/copy.html#copy.copy"" rel=""noreferrer"" title=""copy.copy""><code>copy.copy()</code></a>:</p>
+
+<pre><code>import copy
+new_list = copy.copy(old_list)
+</code></pre>
+
+<p>This is a little slower than <code>list()</code> because it has to find out the datatype of <code>old_list</code> first.</p></li>
+<li><p>If the list contains objects and you want to copy them as well, use generic <a href=""https://docs.python.org/2/library/copy.html#copy.deepcopy"" rel=""noreferrer"" title=""copy.deepcopy""><code>copy.deepcopy()</code></a>:</p>
+
+<pre><code>import copy
+new_list = copy.deepcopy(old_list)
+</code></pre>
+
+<p>Obviously the slowest and most memory-needing method, but sometimes unavoidable.</p></li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<pre><code>import copy
+
+class Foo(object):
+    def __init__(self, val):
+         self.val = val
+
+    def __repr__(self):
+        return str(self.val)
+
+foo = Foo(1)
+
+a = ['foo', foo]
+b = a[:]
+c = list(a)
+d = copy.copy(a)
+e = copy.deepcopy(a)
+
+# edit orignal list and instance 
+a.append('baz')
+foo.val = 5
+
+print('original: %r\n slice: %r\n list(): %r\n copy: %r\n deepcopy: %r'
+      % (a, b, c, d, e))
+</code></pre>
+
+<p>Result:</p>
+
+<pre><code>original: ['foo', 5, 'baz']
+slice: ['foo', 5]
+list(): ['foo', 5]
+copy: ['foo', 5]
+deepcopy: ['foo', 1]
+</code></pre>
+","2612815"
+"Delete column from pandas DataFrame using python del","846643","","<p>When deleting a column in a DataFrame I use:</p>
+
+<pre><code>del df['column_name']
+</code></pre>
+
+<p>and this works great. Why can't I use:</p>
+
+<pre><code>del df.column_name
+</code></pre>
+
+<p><em>As you can access the column/Series as <code>df.column_name</code>, I expect this to work.</em></p>
+","<p>It's difficult to make <code>del df.column_name</code> work simply as the result of syntactic limitations in Python. <code>del df[name]</code> gets translated to <code>df.__delitem__(name)</code> under the covers by Python.</p>
+","13485766"
+"How can I reverse a list in python?","843477","","<p>How can I do this in python?</p>
+
+<pre><code>array = [0,10,20,40]
+for (i = array.length() - 1 ;i &gt;= 0; i--)
+</code></pre>
+
+<p>I need to have the elements of an array but from the end to the beginning.</p>
+","<p>You can make use of the <a href=""https://www.python.org/dev/peps/pep-0322/"" rel=""noreferrer""><code>reversed</code></a> function for this as:</p>
+
+<pre><code>&gt;&gt;&gt; array=[0,10,20,40]
+&gt;&gt;&gt; for i in reversed(array):
+...     print(i)
+</code></pre>
+
+<p>Note that <code>reversed(...)</code> does not return a list. You can get a reversed list using <code>list(reversed(array))</code>.</p>
+","3940144"
+"How to delete a character from a string using python?","839769","","<p>There is a string, for example <code>EXAMPLE</code></p>
+
+<p>How can I remove the middle character i.e. <code>M</code> from it. I don't need the code, what I want to know is</p>
+
+<ul>
+<li>Do strings in python end in any special character?</li>
+<li>Which is a better way - shifting everything right to left starting from the middle character OR creation of a new string and not copying the middle character?</li>
+</ul>
+","<p>In Python, strings are immutable, so you have to create a new string.  You have a few options of how to create the new string.  If you want to remove the 'M' wherever it appears:</p>
+
+<pre><code>newstr = oldstr.replace(""M"", """")
+</code></pre>
+
+<p>If you want to remove the central character:</p>
+
+<pre><code>midlen = len(oldstr)/2
+newstr = oldstr[:midlen] + oldstr[midlen+1:]
+</code></pre>
+
+<p>You asked if strings end with a special character.  No, you are thinking like a C programmer.  In Python, strings are stored with their length, so any byte value, including <code>\0</code>, can appear in a string.</p>
+","3559600"
+"ASCII value of a character in Python","836598","","<p>How do I get the <a href=""http://en.wikipedia.org/wiki/ASCII"" rel=""noreferrer"">ASCII</a> value of a character as an int in <a href=""http://en.wikipedia.org/wiki/Python_%28programming_language%29"" rel=""noreferrer"">Python</a>?</p>
+","<p>From <a href=""http://mail.python.org/pipermail/python-win32/2005-April/003100.html"" rel=""noreferrer"">here</a>:</p>
+
+<blockquote>
+  <p>function ord() would get the int value
+  of the char. And in case you want to
+  convert back after playing with the
+  number, function chr() does the trick.</p>
+</blockquote>
+
+<pre><code>&gt;&gt;&gt; ord('a')
+97
+&gt;&gt;&gt; chr(97)
+'a'
+&gt;&gt;&gt; chr(ord('a') + 3)
+'d'
+&gt;&gt;&gt;
+</code></pre>
+
+<p>In Python 2, there is also the <code>unichr</code> function, returning the <a href=""http://en.wikipedia.org/wiki/Unicode"" rel=""noreferrer"">Unicode</a> character whose ordinal is the <code>unichr</code> argument:</p>
+
+<pre><code>&gt;&gt;&gt; unichr(97)
+u'a'
+&gt;&gt;&gt; unichr(1234)
+u'\u04d2'
+</code></pre>
+
+<p>In Python 3 you can use <code>chr</code> instead of <code>unichr</code>.</p>
+","227472"
+"Python string formatting: % vs. .format","836372","","<p>Python 2.6 introduced the <a href=""https://docs.python.org/2/library/stdtypes.html#str.format"" rel=""noreferrer""><code>str.format()</code></a> method with a slightly different syntax from the existing <code>%</code> operator. Which is better and for what situations?</p>
+
+<ol>
+<li><p>The following uses each method and has the same outcome, so what is the difference?</p>
+
+<pre><code>#!/usr/bin/python
+sub1 = ""python string!""
+sub2 = ""an arg""
+
+a = ""i am a %s"" % sub1
+b = ""i am a {0}"".format(sub1)
+
+c = ""with %(kwarg)s!"" % {'kwarg':sub2}
+d = ""with {kwarg}!"".format(kwarg=sub2)
+
+print a    # ""i am a python string!""
+print b    # ""i am a python string!""
+print c    # ""with an arg!""
+print d    # ""with an arg!""
+</code></pre></li>
+<li><p>Furthermore when does string formatting occur in Python? For example, if my logging level is set to HIGH will I still take a hit for performing the following <code>%</code> operation? And if so, is there a way to avoid this?</p>
+
+<pre><code>log.debug(""some debug info: %s"" % some_info)
+</code></pre></li>
+</ol>
+","<p>To answer your first question... <code>.format</code> just seems more sophisticated in many ways. An annoying thing about <code>%</code> is also how it can either take a variable or a tuple. You'd think the following would always work:</p>
+
+<pre><code>""hi there %s"" % name
+</code></pre>
+
+<p>yet, if <code>name</code> happens to be <code>(1, 2, 3)</code>, it will throw a <code>TypeError</code>. To guarantee that it always prints, you'd need to do</p>
+
+<pre><code>""hi there %s"" % (name,)   # supply the single argument as a single-item tuple
+</code></pre>
+
+<p>which is just ugly. <code>.format</code> doesn't have those issues. Also in the second example you gave, the <code>.format</code> example is much cleaner looking.</p>
+
+<p>Why would you not use it? </p>
+
+<ul>
+<li>not knowing about it (me before reading this)</li>
+<li>having to be compatible with Python 2.5</li>
+</ul>
+
+<hr>
+
+<p>To answer your second question, string formatting happens at the same time as any other operation - when the string formatting expression is evaluated. And Python, not being a lazy language, evaluates expressions before calling functions, so in your <code>log.debug</code> example, the expression <code>""some debug info: %s""%some_info</code>will first evaluate to, e.g. <code>""some debug info: roflcopters are active""</code>, then that string will be passed to <code>log.debug()</code>. </p>
+","5082482"
+"Try/Except in Python: How do you properly ignore Exceptions?","833281","","<p>When you just want to do a try-except without handling the exception, how do you do it in Python?</p>
+
+<p>Is the following the right way to do it?</p>
+
+<pre><code>try:
+    shutil.rmtree(path)
+except:
+    pass
+</code></pre>
+","<pre><code>try:
+  doSomething()
+except: 
+  pass
+</code></pre>
+
+<p>or</p>
+
+<pre><code>try:
+  doSomething()
+except Exception: 
+  pass
+</code></pre>
+
+<p>The difference is, that the first one will also catch <code>KeyboardInterrupt</code>, <code>SystemExit</code> and stuff like that, which are derived directly from <code>exceptions.BaseException</code>, not <code>exceptions.Exception</code>.<br/> See documentation for details:</p>
+
+<ul>
+<li>try statement &mdash; <a href=""http://docs.python.org/reference/compound_stmts.html#try"" rel=""noreferrer"">http://docs.python.org/reference/compound_stmts.html#try</a></li>
+<li>exceptions &mdash; <a href=""http://docs.python.org/library/exceptions"" rel=""noreferrer"">http://docs.python.org/library/exceptions</a></li>
+</ul>
+","730778"
+"How to count the occurrences of a list item?","832497","","<p>Given an item, how can I count its occurrences in a list in Python?</p>
+","<p>If you only want one item's count, use the <code>count</code> method:</p>
+
+<pre><code>&gt;&gt;&gt; [1, 2, 3, 4, 1, 4, 1].count(1)
+3
+</code></pre>
+
+<p><strong>Don't</strong> use this if you want to count multiple items. Calling <code>count</code> in a loop requires a separate pass over the list for every <code>count</code> call, which can be catastrophic for performance. If you want to count all items, or even just multiple items, use <code>Counter</code>, as explained in the other answers.</p>
+","2600208"
+"Writing a list to a file with Python","828339","","<p>Is this the cleanest way to write a list to a file, since <code>writelines()</code> doesn't insert newline characters?</p>
+
+<pre><code>file.writelines([""%s\n"" % item  for item in list])
+</code></pre>
+
+<p>It seems like there would be a standard way...</p>
+","<blockquote>
+  <p><strong>EDIT</strong> Adding info from <a href=""https://stackoverflow.com/users/306312/thomas"">Thomas</a>' comment</p>
+  
+  <p>Don't forget to open the file first</p>
+  
+  <p><code>thefile = open('test.txt', 'w')</code></p>
+</blockquote>
+
+<p>I'd use a loop:</p>
+
+<pre><code>for item in thelist:
+  thefile.write(""%s\n"" % item)
+</code></pre>
+
+<p>or:</p>
+
+<pre><code>for item in thelist:
+  print&gt;&gt;thefile, item
+</code></pre>
+
+<p>If you're keen on a single function call, at least remove the square brackets <code>[]</code> so that the strings to be printed get made one at a time (a genexp rather than a listcomp) -- no reason to take up all the memory required to materialize the whole list of strings.</p>
+","899176"
+"Trimming a string in Python","828216","","<p>How do I remove leading and trailing whitespace from a string in Python?</p>
+
+<p>For example:</p>
+
+<pre><code>"" Hello "" --&gt; ""Hello""
+"" Hello""  --&gt; ""Hello""
+""Hello ""  --&gt; ""Hello""
+""Bob has a cat"" --&gt; ""Bob has a cat""
+</code></pre>
+","<p>Just one space, or all such spaces?  If the second, then strings already have a <code>.strip()</code> method:</p>
+
+<pre><code>&gt;&gt;&gt; ' Hello '.strip()
+'Hello'
+&gt;&gt;&gt; ' Hello'.strip()
+'Hello'
+&gt;&gt;&gt; 'Bob has a cat'.strip()
+'Bob has a cat'
+&gt;&gt;&gt; '          Hello        '.strip()  # ALL spaces at ends removed
+'Hello'
+</code></pre>
+
+<p>If you need only to remove one space however, you could do it with:</p>
+
+<pre><code>def strip_one_space(s):
+    if s.endswith("" ""): s = s[:-1]
+    if s.startswith("" ""): s = s[1:]
+    return s
+
+&gt;&gt;&gt; strip_one_space(""   Hello "")
+'  Hello'
+</code></pre>
+
+<p>Also, note that <code>str.strip()</code> removes other whitespace characters as well (e.g. tabs and newlines).  To remove only spaces, you can specify the character to remove as an argument to <code>strip</code>, i.e.:</p>
+
+<pre><code>&gt;&gt;&gt; ""  Hello\n"".strip("" "")
+'Hello\n'
+</code></pre>
+","761825"
+"How do I trim whitespace?","826453","","<p>Is there a Python function that will trim whitespace (spaces and tabs) from a string?</p>
+
+<p>Example: <code>\t example string\t</code> → <code>example string</code></p>
+","<p>Whitespace on both sides:</p>
+
+<pre><code>s = ""  \t a string example\t  ""
+s = s.strip()
+</code></pre>
+
+<p>Whitespace on the right side:</p>
+
+<pre><code>s = s.rstrip()
+</code></pre>
+
+<p>Whitespace on the left side:</p>
+
+<pre><code>s = s.lstrip()
+</code></pre>
+
+<p>As <a href=""https://stackoverflow.com/users/84380/thedz"">thedz</a> points out, you can provide an argument to strip arbitrary characters to any of these functions like this:</p>
+
+<pre><code>s = s.strip(' \t\n\r')
+</code></pre>
+
+<p>This will strip any space, <code>\t</code>, <code>\n</code>, or <code>\r</code> characters from the left-hand side, right-hand side, or both sides of the string. </p>
+
+<p>The examples above only remove strings from the left-hand and right-hand sides of strings. If you want to also remove characters from the middle of a string, try <code>re.sub</code>:</p>
+
+<pre><code>import re
+print re.sub('[\s+]', '', s)
+</code></pre>
+
+<p>That should print out:</p>
+
+<pre><code>astringexample
+</code></pre>
+","1185529"
+"Delete an item from a dictionary","824157","","<p>Is there a way to delete an item from a dictionary in Python?</p>
+
+<p>I know I can just call <code>.pop</code> on the dictionary, but that returns the item that was removed. What I'm looking for is something returns the dictionary <em>minus</em> the element in question. </p>
+
+<p>At present I have a helper function that accepts the dictionary in question as parameter, and then returns a dictionary with the item removed, Is there a more elegant solution?</p>
+","<p>The <a href=""http://docs.python.org/reference/simple_stmts.html#grammar-token-del_stmt"" rel=""noreferrer""><code>del</code> statement</a> removes an element:</p>
+
+<pre><code>del d[key]
+</code></pre>
+
+<p>However, this mutates the existing dictionary so the contents of the dictionary changes for anybody else who has a reference to the same instance. To return a <em>new</em> dictionary, make a copy of the dictionary:</p>
+
+<pre><code>def removekey(d, key):
+    r = dict(d)
+    del r[key]
+    return r
+</code></pre>
+
+<p>The <code>dict()</code> constructor makes a <em>shallow copy</em>. To make a deep copy, see the <a href=""https://docs.python.org/library/copy.html"" rel=""noreferrer""><code>copy</code> module</a>.</p>
+","5844692"
+"Static class variables in Python","819776","","<p>Is it possible to have static class variables or methods in python? What syntax is required to do this?</p>
+","<p>Variables declared inside the class definition, but not inside a method are class or static variables:</p>
+
+<pre><code>&gt;&gt;&gt; class MyClass:
+...     i = 3
+...
+&gt;&gt;&gt; MyClass.i
+3 
+</code></pre>
+
+<p>As @<a href=""https://stackoverflow.com/questions/68645/static-class-variables-in-python#answer-69067"">millerdev</a> points out, this creates a class-level <code>i</code> variable, but this is distinct from any instance-level <code>i</code> variable, so you could have</p>
+
+<pre><code>&gt;&gt;&gt; m = MyClass()
+&gt;&gt;&gt; m.i = 4
+&gt;&gt;&gt; MyClass.i, m.i
+&gt;&gt;&gt; (3, 4)
+</code></pre>
+
+<p>This is different from C++ and Java, but not so different from C#, where a static member can't be accessed using a reference to an instance.</p>
+
+<p>See <a href=""https://docs.python.org/2/tutorial/classes.html#class-objects"" rel=""noreferrer"">what the Python tutorial has to say on the subject of classes and class objects</a>.</p>
+
+<p>@Steve Johnson has already answered regarding <a href=""http://web.archive.org/web/20090214211613/http://pyref.infogami.com/staticmethod"" rel=""noreferrer"">static methods</a>, also documented under <a href=""https://docs.python.org/2/library/functions.html#staticmethod"" rel=""noreferrer"">""Built-in Functions"" in the Python Library Reference</a>.</p>
+
+<pre><code>class C:
+    @staticmethod
+    def f(arg1, arg2, ...): ...
+</code></pre>
+
+<p>@beidy recommends <a href=""https://docs.python.org/2/library/functions.html#classmethod"" rel=""noreferrer"">classmethod</a>s over staticmethod, as the method then receives the class type as the first argument, but I'm still a little fuzzy on the advantages of this approach over staticmethod. If you are too, then it probably doesn't matter.</p>
+","68672"
+"Reverse a string in Python","818004","","<p>There is no built in <code>reverse</code> function for Python's <code>str</code> object. What is the best way of implementing this method?</p>
+
+<p>If supplying a very concise answer, please elaborate on its efficiency. For example, whether the <code>str</code> object is converted to a different object, etc. </p>
+","<p>How about:</p>
+
+<pre><code>&gt;&gt;&gt; 'hello world'[::-1]
+'dlrow olleh'
+</code></pre>
+
+<p>This is <a href=""http://docs.python.org/2/whatsnew/2.3.html#extended-slices"" rel=""noreferrer"">extended slice</a> syntax. It works by doing <code>[begin:end:step]</code> - by leaving begin and end off and specifying a step of -1, it reverses a string.</p>
+","931095"
+"Most elegant way to check if the string is empty in Python?","815091","","<p>Does Python have something like an empty string variable where you can do?:</p>
+
+<pre><code>if myString == string.empty:
+</code></pre>
+
+<p>Regardless what's the most elegant way to check for empty string values? I find hard coding <code>""""</code> every time for checking an empty string not as good.</p>
+","<p>Empty strings are <a href=""http://docs.python.org/2/library/stdtypes.html#truth-value-testing"" rel=""noreferrer"">""falsy""</a> which means they are considered false in a Boolean context, so you can just do this:</p>
+
+<pre><code>if not myString:
+</code></pre>
+
+<p>This is the preferred way if you know that your variable is a string.  If your variable could also be some other type then you should use <code>myString == """"</code>.  See the documentation on <a href=""http://docs.python.org/library/stdtypes.html#truth-value-testing"" rel=""noreferrer"">Truth Value Testing</a> for other values that are false in Boolean contexts.</p>
+","9573259"
+"Emulate a do-while loop in Python?","810583","","<p>I need to emulate a do-while loop in a Python program. Unfortunately, the following straightforward code does not work:</p>
+
+<pre><code>l = [ 1, 2, 3 ]
+i = l.__iter__()
+s = None
+while True :
+  if s :
+    print s
+  try :
+    s = i.next()
+  except StopIteration :
+    break
+print ""done""
+</code></pre>
+
+<p>Instead of ""1,2,3,done"", it prints the following output:</p>
+
+<pre><code>[stdout:]1
+[stdout:]2
+[stdout:]3
+None['Traceback (most recent call last):
+', '  File ""test_python.py"", line 8, in &lt;module&gt;
+    s = i.next()
+', 'StopIteration
+']
+</code></pre>
+
+<p>What can I do in order to catch the 'stop iteration' exception and break a while
+loop properly?</p>
+
+<p>An example of why such a thing may be needed is shown below as pseudocode.</p>
+
+<p>State machine:</p>
+
+<pre><code>s = """"
+while True :
+  if state is STATE_CODE :
+    if ""//"" in s :
+      tokens.add( TOKEN_COMMENT, s.split( ""//"" )[1] )
+      state = STATE_COMMENT
+    else :
+      tokens.add( TOKEN_CODE, s )
+  if state is STATE_COMMENT :
+    if ""//"" in s :
+      tokens.append( TOKEN_COMMENT, s.split( ""//"" )[1] )
+    else
+      state = STATE_CODE
+      # Re-evaluate same line
+      continue
+  try :
+    s = i.next()
+  except StopIteration :
+    break
+</code></pre>
+","<p>I am not sure what you are trying to do. You can implement a do-while loop like this:</p>
+
+<pre><code>while True:
+  stuff()
+  if fail_condition:
+    break
+</code></pre>
+
+<p>Or:</p>
+
+<pre><code>stuff()
+while not fail_condition:
+  stuff()
+</code></pre>
+
+<p>What are you doing trying to use a do while loop to print the stuff in the list? Why not just use:</p>
+
+<pre><code>for i in l:
+  print i
+print ""done""
+</code></pre>
+
+<p>Update:</p>
+
+<p>So do you have a list of lines? And you want to keep iterating through it? How about: </p>
+
+<pre><code>for s in l: 
+  while True: 
+    stuff() 
+    # use a ""break"" instead of s = i.next()
+</code></pre>
+
+<p>Does that seem like something close to what you would want? With your code example, it would be:</p>
+
+<pre><code>for s in some_list:
+  while True :
+    if state is STATE_CODE :
+      if ""//"" in s :
+        tokens.add( TOKEN_COMMENT, s.split( ""//"" )[1] )
+        state = STATE_COMMENT
+      else :
+        tokens.add( TOKEN_CODE, s )
+    if state is STATE_COMMENT :
+      if ""//"" in s :
+        tokens.append( TOKEN_COMMENT, s.split( ""//"" )[1] )
+        break # get next s
+      else
+        state = STATE_CODE
+        # re-evaluate same line
+        # continues automatically
+</code></pre>
+","743186"
+"null object in Python?","805125","","<p>How do I refer to the null object in Python?</p>
+","<p>In Python, the 'null' object is the singleton <code>None</code>.</p>
+
+<p>The best way to check things for ""Noneness"" is to use the identity operator, <code>is</code>:</p>
+
+<pre><code>if foo is None:
+    ...
+</code></pre>
+","3289606"
+"How do I parse XML in Python?","800203","","<p>I have many rows in a database that contains xml and I'm trying to write a Python script that will go through those rows and count how many instances of a particular node attribute show up. For instance, my tree looks like:</p>
+
+<pre><code>&lt;foo&gt;
+   &lt;bar&gt;
+      &lt;type foobar=""1""/&gt;
+      &lt;type foobar=""2""/&gt;
+   &lt;/bar&gt;
+&lt;/foo&gt;
+</code></pre>
+
+<p>How can I access the attributes 1 and 2 in the XML using Python?</p>
+","<p>I suggest <a href=""http://docs.python.org/library/xml.etree.elementtree.html"" rel=""noreferrer""><code>ElementTree</code></a>.  There are other compatible implementations of the same API, such as <a href=""http://lxml.de/"" rel=""noreferrer""><code>lxml</code></a>, and <code>cElementTree</code> in the Python standard library itself; but, in this context, what they chiefly add is even more speed -- the ease of programming part depends on the API, which <code>ElementTree</code> defines.</p>
+
+<p>After building an Element instance <code>e</code> from the XML, e.g. with the <a href=""http://docs.python.org/library/xml.etree.elementtree.html#xml.etree.ElementTree.XML"" rel=""noreferrer"">XML</a> function, or by parsing a file with something like</p>
+
+<pre><code>import xml.etree.ElementTree
+e = xml.etree.ElementTree.parse('thefile.xml').getroot()
+</code></pre>
+
+<p>or any of the many other ways shown at <a href=""http://docs.python.org/library/xml.etree.elementtree.html"" rel=""noreferrer""><code>ElementTree</code></a>, you just do something like:</p>
+
+<pre><code>for atype in e.findall('type'):
+    print(atype.get('foobar'))
+</code></pre>
+
+<p>and similar, usually pretty simple, code patterns.</p>
+","1912483"
+"How to print date in a regular format in Python?","799502","","<p>This is my code:</p>
+
+<pre><code>import datetime
+today = datetime.date.today()
+print today
+</code></pre>
+
+<p>This prints: 2008-11-22 which is exactly what I want BUT....I have a list I'm appending this to and then suddenly everything goes ""wonky"". Here is the code:</p>
+
+<pre><code>import datetime
+mylist = []
+today = datetime.date.today()
+mylist.append(today)
+print mylist
+</code></pre>
+
+<p>This prints the following: </p>
+
+<pre><code>[datetime.date(2008, 11, 22)]
+</code></pre>
+
+<p>How on earth can I get just a simple date like ""2008-11-22""?</p>
+","<h2>The WHY: dates are objects</h2>
+
+<p>In Python, dates are objects. Therefore, when you manipulate them, you manipulate objects, not strings, not timestamps nor anything.</p>
+
+<p>Any object in Python have TWO string representations:</p>
+
+<ul>
+<li><p>The regular representation that is used by ""print"", can be get using the <code>str()</code> function. It is most of the time the most common human readable format and is used to ease display. So <code>str(datetime.datetime(2008, 11, 22, 19, 53, 42))</code> gives you <code>'2008-11-22 19:53:42'</code>. </p></li>
+<li><p>The alternative representation that is used to represent the object nature (as a data). It can be get using the <code>repr()</code> function and is handy to know what kind of data your manipulating while you are developing or debugging. <code>repr(datetime.datetime(2008, 11, 22, 19, 53, 42))</code> gives you <code>'datetime.datetime(2008, 11, 22, 19, 53, 42)'</code>.</p></li>
+</ul>
+
+<p>What happened is that when you have printed the date using ""print"", it used <code>str()</code> so you could see a nice date string. But when you have printed <code>mylist</code>, you have printed a list of objects and Python tried to represent the set of data, using <code>repr()</code>.</p>
+
+<h2>The How: what do you want to do with that?</h2>
+
+<p>Well, when you manipulate dates, keep using the date objects all long the way. They got thousand of useful methods and most of the Python API expect dates to be objects.</p>
+
+<p>When you want to display them, just use <code>str()</code>. In Python, the good practice is to explicitly cast everything. So just when it's time to print, get a string representation of your date using <code>str(date)</code>.</p>
+
+<p>One last thing. When you tried to print the dates, you printed <code>mylist</code>. If you want to print a date, you must print the date objects, not their container (the list).</p>
+
+<p>E.G, you want to print all the date in a list :</p>
+
+<pre><code>for date in mylist :
+    print str(date)
+</code></pre>
+
+<p>Note that <strong><em>in that specific case</em></strong>, you can even omit <code>str()</code> because print will use it for you. But it should not become a habit :-)</p>
+
+<h2>Practical case, using your code</h2>
+
+<pre><code>import datetime
+mylist = []
+today = datetime.date.today()
+mylist.append(today)
+print mylist[0] # print the date object, not the container ;-)
+2008-11-22
+
+# It's better to always use str() because :
+
+print ""This is a new day : "", mylist[0] # will work
+This is a new day : 2008-11-22
+
+print ""This is a new day : "" + mylist[0] # will crash
+cannot concatenate 'str' and 'datetime.date' objects
+
+print ""This is a new day : "" + str(mylist[0]) 
+This is a new day : 2008-11-22
+</code></pre>
+
+<h2>Advanced date formatting</h2>
+
+<p>Dates have a default representation, but you may want to print them in a specific format. In that case, you can get a custom string representation using the <code>strftime()</code> method.</p>
+
+<p><code>strftime()</code> expects a string pattern explaining how you want to format your date.</p>
+
+<p>E.G : </p>
+
+<pre><code>print today.strftime('We are the %d, %b %Y')
+'We are the 22, Nov 2008'
+</code></pre>
+
+<p>All the letter after a <code>""%""</code> represent a format for something :</p>
+
+<ul>
+<li><code>%d</code> is the day number</li>
+<li><code>%m</code> is the month number</li>
+<li><code>%b</code> is the month abbreviation</li>
+<li><code>%y</code> is the year last two digits</li>
+<li><code>%Y</code> is the all year</li>
+</ul>
+
+<p>etc</p>
+
+<p><a href=""http://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior"" rel=""noreferrer"">Have a look at the official documentation</a>, or <a href=""http://strftime.org"" rel=""noreferrer"">McCutchen's quick reference</a> you can't know them all.</p>
+
+<p>Since <a href=""http://www.python.org/dev/peps/pep-3101/"" rel=""noreferrer"">PEP3101</a>, every object can have its own format used automatically by the method format of any string. In the case of the datetime, the format is the same used in
+strftime. So you can do the same as above like this:</p>
+
+<pre><code>print ""We are the {:%d, %b %Y}"".format(today)
+'We are the 22, Nov 2008'
+</code></pre>
+
+<p>The advantage of this form is that you can also convert other objects at the same time.<br>
+With the introduction of <a href=""https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals"" rel=""noreferrer"">Formatted string literals</a> (since Python 3.6, 2016-12-23) this can be written as</p>
+
+<pre><code>import datetime
+f""{datetime.datetime.now():%Y-%m-%d}""
+'2017-06-15'
+</code></pre>
+
+<h2>Localization</h2>
+
+<p>Dates can automatically adapt to the local language and culture if you use them the right way, but it's a bit complicated. Maybe for another question on SO(Stack Overflow) ;-)</p>
+","311655"
+"How to randomly select an item from a list?","779788","","<p>Assume I have the following list:</p>
+
+<pre><code>foo = ['a', 'b', 'c', 'd', 'e']
+</code></pre>
+
+<p>What is the simplest way to retrieve an item at random from this list?</p>
+","<p>Use <a href=""https://docs.python.org/2/library/random.html#random.choice"" rel=""noreferrer""><code>random.choice</code></a>:</p>
+
+<pre><code>import random
+
+foo = ['a', 'b', 'c', 'd', 'e']
+print(random.choice(foo))
+</code></pre>
+
+<p>For cryptographically secure random choices (e.g. for generating a passphrase from a wordlist), use <a href=""https://docs.python.org/2/library/random.html#random.SystemRandom"" rel=""noreferrer""><code>random.SystemRandom</code></a> class:</p>
+
+<pre><code>import random
+
+foo = ['battery', 'correct', 'horse', 'staple']
+secure_random = random.SystemRandom()
+print(secure_random.choice(foo))
+</code></pre>
+","306417"
+"Python: user input and commandline arguments","777117","","<p>How do I have a Python script that can accept user input (assuming this is possible) and how do I make it read in arguments if run from the command line?</p>
+","<p>To read user input you can try <a href=""https://docs.python.org/dev/library/cmd.html"" rel=""noreferrer"">the <code>cmd</code> module</a> for easily creating a mini-command line interpreter (with help texts and autocompletion) and <a href=""https://docs.python.org/2/library/functions.html#raw_input"" rel=""noreferrer""><code>raw_input</code></a> (<a href=""https://docs.python.org/dev/library/functions.html#input"" rel=""noreferrer""><code>input</code></a> for Python 3+) for reading a line of text from the user.</p>
+
+<pre><code>text = raw_input(""prompt"")  # Python 2
+text = input(""prompt"")  # Python 3
+</code></pre>
+
+<p>Command line inputs are in <code>sys.argv</code>. Try this in your script:</p>
+
+<pre><code>import sys
+print (sys.argv)
+</code></pre>
+
+<p>There are two modules for parsing command line options: <a href=""https://docs.python.org/dev/library/optparse.html"" rel=""noreferrer""><s><code>optparse</code></s></a> (deprecated since Python 2.7, use <a href=""https://docs.python.org/dev/library/argparse.html"" rel=""noreferrer""><code>argparse</code></a> instead) and <a href=""https://docs.python.org/dev/library/getopt.html"" rel=""noreferrer""><code>getopt</code></a>. If you just want to input files to your script, behold the power of <a href=""https://docs.python.org/dev/library/fileinput.html"" rel=""noreferrer""><code>fileinput</code></a>.</p>
+
+<p>The <a href=""https://docs.python.org/dev/library/"" rel=""noreferrer"">Python library reference</a> is your friend.</p>
+","70833"
+"String comparison in Python: is vs. ==","773914","","<p>I noticed a Python script I was writing was acting squirrelly, and traced it to an infinite loop, where the loop condition was <code>while line is not ''</code>. Running through it in the debugger, it turned out that line was in fact <code>''</code>. When I changed it to <code>!=''</code> rather than <code>is not ''</code>, it worked fine. </p>
+
+<p>Also, is it generally considered better to just use '==' by default, even when comparing int or Boolean values? I've always liked to use 'is' because I find it more aesthetically pleasing and pythonic (which is how I fell into this trap...), but I wonder if it's intended to just be reserved for when you care about finding two objects with the same id.</p>
+","<blockquote>
+  <p>For all built-in Python objects (like
+  strings, lists, dicts, functions,
+  etc.), if x is y, then x==y is also
+  True.</p>
+</blockquote>
+
+<p>Not always.  NaN is a counterexample.  But <em>usually</em>, identity (<code>is</code>) implies equality (<code>==</code>).  The converse is not true: Two distinct objects can have the same value.</p>
+
+<blockquote>
+  <p>Also, is it generally considered better to just use '==' by default, even
+  when comparing int or Boolean values?</p>
+</blockquote>
+
+<p>You use <code>==</code> when comparing values and <code>is</code> when comparing identities.</p>
+
+<p>When comparing ints (or immutable types in general), you pretty much always want the former.  There's an optimization that allows small integers to be compared with <code>is</code>, but don't rely on it.</p>
+
+<p>For boolean values, you shouldn't be doing comparisons at all.   Instead of:</p>
+
+<pre><code>if x == True:
+    # do something
+</code></pre>
+
+<p>write:</p>
+
+<pre><code>if x:
+    # do something
+</code></pre>
+
+<p>For comparing against <code>None</code>, <code>is None</code> is preferred over <code>== None</code>.</p>
+
+<blockquote>
+  <p>I've always liked to use 'is' because
+  I find it more aesthetically pleasing
+  and pythonic (which is how I fell into
+  this trap...), but I wonder if it's
+  intended to just be reserved for when
+  you care about finding two objects
+  with the same id.</p>
+</blockquote>
+
+<p>Yes, that's exactly what it's for.</p>
+","2988117"
+"Import a module from a relative path","761553","","<p>How do I import a Python module given its relative path?</p>
+
+<p>For example, if <code>dirFoo</code> contains <code>Foo.py</code> and <code>dirBar</code>, and <code>dirBar</code> contains <code>Bar.py</code>, how do I import <code>Bar.py</code> into <code>Foo.py</code>?</p>
+
+<p>Here's a visual representation:</p>
+
+<pre><code>dirFoo\
+    Foo.py
+    dirBar\
+        Bar.py
+</code></pre>
+
+<p><code>Foo</code> wishes to include <code>Bar</code>, but restructuring the folder hierarchy is not an option.</p>
+","<p>Assuming that both your directories are real Python packages (do have the <code>__init__.py</code> file inside them), here is a safe solution for inclusion of modules relatively to the location of the script.</p>
+
+<p>I assume that you want to do this, because you need to include a set of modules with your script. I use this in production in several products and works in many special scenarios like: scripts called from another directory or executed with python execute instead of opening a new interpreter.</p>
+
+<pre><code> import os, sys, inspect
+ # realpath() will make your script run, even if you symlink it :)
+ cmd_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]))
+ if cmd_folder not in sys.path:
+     sys.path.insert(0, cmd_folder)
+
+ # Use this if you want to include modules from a subfolder
+ cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],""subfolder"")))
+ if cmd_subfolder not in sys.path:
+     sys.path.insert(0, cmd_subfolder)
+
+ # Info:
+ # cmd_folder = os.path.dirname(os.path.abspath(__file__)) # DO NOT USE __file__ !!!
+ # __file__ fails if the script is called in different ways on Windows.
+ # __file__ fails if someone does os.chdir() before.
+ # sys.argv[0] also fails, because it doesn't not always contains the path.
+</code></pre>
+
+<p>As a bonus, this approach does let you force Python to use your module instead of the ones installed on the system.</p>
+
+<p>Warning! I don't really know what is happening when current module is inside an <code>egg</code> file. It probably fails too.</p>
+","6098238"
+"Adding new column to existing DataFrame in Python pandas","753964","","<p>I have the following indexed DataFrame with named columns and rows not- continuous numbers:</p>
+
+<pre><code>          a         b         c         d
+2  0.671399  0.101208 -0.181532  0.241273
+3  0.446172 -0.243316  0.051767  1.577318
+5  0.614758  0.075793 -0.451460 -0.012493
+</code></pre>
+
+<p>I would like to add a new column, <code>'e'</code>, to the existing data frame and do not want to change anything in the data frame (i.e., the new column always has the same length as the DataFrame). </p>
+
+<pre><code>0   -0.335485
+1   -1.166658
+2   -0.385571
+dtype: float64
+</code></pre>
+
+<p>I tried different versions of <code>join</code>, <code>append</code>, <code>merge</code>, but I did not get the result I wanted, only errors at most. How can I add column <code>e</code> to the above example? </p>
+","<p>Use the original df1 indexes to create the series:</p>
+
+<pre><code>df1['e'] = Series(np.random.randn(sLength), index=df1.index)
+</code></pre>
+
+<hr>
+
+<hr>
+
+<p><strong>Edit 2015</strong><br>
+Some reported to get the <code>SettingWithCopyWarning</code> with this code.<br>
+However, the code still runs perfect with the current pandas version 0.16.1.</p>
+
+<pre><code>&gt;&gt;&gt; sLength = len(df1['a'])
+&gt;&gt;&gt; df1
+          a         b         c         d
+6 -0.269221 -0.026476  0.997517  1.294385
+8  0.917438  0.847941  0.034235 -0.448948
+
+&gt;&gt;&gt; df1['e'] = p.Series(np.random.randn(sLength), index=df1.index)
+&gt;&gt;&gt; df1
+          a         b         c         d         e
+6 -0.269221 -0.026476  0.997517  1.294385  1.757167
+8  0.917438  0.847941  0.034235 -0.448948  2.228131
+
+&gt;&gt;&gt; p.version.short_version
+'0.16.1'
+</code></pre>
+
+<p>The <code>SettingWithCopyWarning</code> aims to inform of a possibly invalid assignment on a copy of the Dataframe. It doesn't necessarily say you did it wrong (it can trigger false positives) but from 0.13.0 it let you know there are more adequate methods for the same purpose. Then, if you get the warning, just follow its advise: <em>Try using .loc[row_index,col_indexer] = value instead</em></p>
+
+<pre><code>&gt;&gt;&gt; df1.loc[:,'f'] = p.Series(np.random.randn(sLength), index=df1.index)
+&gt;&gt;&gt; df1
+          a         b         c         d         e         f
+6 -0.269221 -0.026476  0.997517  1.294385  1.757167 -0.050927
+8  0.917438  0.847941  0.034235 -0.448948  2.228131  0.006109
+&gt;&gt;&gt; 
+</code></pre>
+
+<p>In fact, this is currently the more efficient method as <a href=""http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy"">described in pandas docs</a></p>
+
+<hr>
+
+<hr>
+
+<p><strong>Edit 2017</strong></p>
+
+<p>As indicated in the comments and by @Alexander, currently the best method to add the values of a Series as a new column of a DataFrame could be using <code>assign</code>:</p>
+
+<pre><code>df1 = df1.assign(e=p.Series(np.random.randn(sLength)).values)
+</code></pre>
+","12555510"
+"IndentationError: unindent does not match any outer indentation level","748993","","<p>When I compile the Python code below, I get </p>
+
+<blockquote>
+  <p>IndentationError: unindent does not match any outer indentation level</p>
+</blockquote>
+
+<hr>
+
+<pre><code>import sys
+
+def Factorial(n): # Return factorial
+    result = 0
+    for i in range (1,n):
+        result = result * i
+    print ""factorial is "",result
+    return result
+</code></pre>
+
+<p>Why?</p>
+","<p>Other posters are probably correct...there might be spaces mixed in with your tabs. Try doing a search &amp; replace to replace all tabs with a few spaces.</p>
+
+<p>Try this:</p>
+
+<pre><code>import sys
+
+def Factorial(n): # return factorial
+    result = 1
+    for i in range (1,n):
+        result = result * i
+    print ""factorial is "",result
+    return result
+
+print Factorial(10)
+</code></pre>
+","492399"
+"How can I sort a dictionary by key?","747519","","<p>What would be a nice way to go from <code>{2:3, 1:89, 4:5, 3:0}</code> to <code>{1:89, 2:3, 3:0, 4:5}</code>?<br>
+I checked some posts but they all use the ""sorted"" operator that returns tuples. </p>
+","<p>Standard Python dictionaries are unordered. Even if you sorted the (key,value) pairs, you wouldn't be able to store them in a <code>dict</code> in a way that would preserve the ordering.</p>
+
+<p>The easiest way is to use <a href=""http://docs.python.org/library/collections.html#collections.OrderedDict""><code>OrderedDict</code></a>, which remembers the order in which the elements have been inserted:</p>
+
+<pre><code>In [1]: import collections
+
+In [2]: d = {2:3, 1:89, 4:5, 3:0}
+
+In [3]: od = collections.OrderedDict(sorted(d.items()))
+
+In [4]: od
+Out[4]: OrderedDict([(1, 89), (2, 3), (3, 0), (4, 5)])
+</code></pre>
+
+<p>Never mind the way <code>od</code> is printed out; it'll work as expected:</p>
+
+<pre><code>In [11]: od[1]
+Out[11]: 89
+
+In [12]: od[3]
+Out[12]: 0
+
+In [13]: for k, v in od.iteritems(): print k, v
+   ....: 
+1 89
+2 3
+3 0
+4 5
+</code></pre>
+
+<h2>Python 3</h2>
+
+<p>For Python 3 users, one needs to use the <code>.items()</code> instead of <code>.iteritems()</code>:</p>
+
+<pre><code>In [13]: for k, v in od.items(): print(k, v)
+   ....: 
+1 89
+2 3
+3 0
+4 5
+</code></pre>
+","9001529"
+"Removing duplicates in lists","745564","","<p>Pretty much I need to write a program to check if a list has any duplicates and if it does it removes them and returns a new list with the items that werent duplicated/removed. This is what I have but to be honest I do not know what to do.</p>
+
+<pre><code>def remove_duplicates():
+    t = ['a', 'b', 'c', 'd']
+    t2 = ['a', 'c', 'd']
+    for t in t2:
+        t.append(t.remove())
+    return t
+</code></pre>
+","<p>The common approach to get a unique collection of items is to use a <a href=""http://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset"" rel=""noreferrer""><code>set</code></a>. Sets are <em>unordered</em> collections of <em>distinct</em> objects. To create a set from any iterable, you can simply pass it to the built-in <a href=""http://docs.python.org/3/library/functions.html#func-set"" rel=""noreferrer""><code>set()</code></a> function. If you later need a real list again, you can similarly pass the set to the <a href=""http://docs.python.org/3/library/functions.html#func-list"" rel=""noreferrer""><code>list()</code></a> function.</p>
+
+<p>The following example should cover whatever you are trying to do:</p>
+
+<pre><code>&gt;&gt;&gt; t = [1, 2, 3, 1, 2, 5, 6, 7, 8]
+&gt;&gt;&gt; t
+[1, 2, 3, 1, 2, 5, 6, 7, 8]
+&gt;&gt;&gt; list(set(t))
+[1, 2, 3, 5, 6, 7, 8]
+&gt;&gt;&gt; s = [1, 2, 3]
+&gt;&gt;&gt; list(set(t) - set(s))
+[8, 5, 6, 7]
+</code></pre>
+
+<p>As you can see from the example result, the original order is not maintained. As mentioned above, sets themselves are unordered collections, so the order is lost. When converting a set back to a list, an arbitrary order is created.</p>
+
+<p>If order is important to you, then you will have to use a different mechanism. A very common solution for this is to rely on <a href=""https://docs.python.org/3/library/collections.html#collections.OrderedDict"" rel=""noreferrer""><code>OrderedDict</code></a> to keep the order of keys during insertion:</p>
+
+<pre><code>&gt;&gt;&gt; from collections import OrderedDict
+&gt;&gt;&gt; list(OrderedDict.fromkeys(t))
+[1, 2, 3, 5, 6, 7, 8]
+</code></pre>
+
+<p>Note that this has the overhead of creating a dictionary first, and then creating a list from it. So if you don’t actually need to preserve the order, you’re better off using a set. Check out <a href=""https://stackoverflow.com/q/480214/216074"">this question</a> for more details and alternative ways to preserve the order when removing duplicates.</p>
+","7961390"
+"How to change a string into uppercase","741971","","<p>I have problem in changing a string into uppercase with Python. In my research, I got <code>string.ascii_uppercase</code> but it doesn't work.</p>
+
+<p>The following code:</p>
+
+<pre><code> &gt;&gt;s = 'sdsd'
+ &gt;&gt;s.ascii_uppercase
+</code></pre>
+
+<p>Gives this error message:</p>
+
+<pre><code>Traceback (most recent call last):
+  File ""&lt;console&gt;"", line 1, in &lt;module&gt;
+AttributeError: 'str' object has no attribute 'ascii_uppercase'
+</code></pre>
+
+<p>My question is: <strong>how can I convert a string into uppercase in Python?</strong></p>
+","<pre><code>&gt;&gt;&gt; s = 'sdsd'
+&gt;&gt;&gt; s.upper()
+'SDSD'
+</code></pre>
+
+<p>See <a href=""https://docs.python.org/2/library/stdtypes.html#string-methods"" rel=""noreferrer"">String Methods</a>.</p>
+","9257122"
+"Remove specific characters from a string in Python","741407","","<p>I'm trying to remove specific characters from a string using Python. This is the code I'm using right now. Unfortunately it appears to do nothing to the string.</p>
+
+<pre><code>for char in line:
+    if char in "" ?.!/;:"":
+        line.replace(char,'')
+</code></pre>
+
+<p>How do I do this properly?</p>
+","<p>Strings in Python are <em>immutable</em> (can't be changed).  Because of this, the effect of <code>line.replace(...)</code> is just to create a new string, rather than changing the old one.  You need to <em>rebind</em> (assign) it to <code>line</code> in order to have that variable take the new value, with those characters removed.</p>
+
+<p>Also, the way you are doing it is going to be kind of slow, relatively.  It's also likely to be a bit confusing to experienced pythonators, who will see a doubly-nested structure and think for a moment that something more complicated is going on.</p>
+
+<p>Starting in Python 2.6 and newer Python 2.x versions *, you can instead use <a href=""https://docs.python.org/2/library/stdtypes.html#str.translate"" rel=""noreferrer""><code>str.translate</code></a>, (but read on for Python 3 differences):</p>
+
+<pre><code>line = line.translate(None, '!@#$')
+</code></pre>
+
+<p>or regular expression replacement with <a href=""https://docs.python.org/2/library/re.html#re.sub"" rel=""noreferrer""><code>re.sub</code></a></p>
+
+<pre><code>import re
+line = re.sub('[!@#$]', '', line)
+</code></pre>
+
+<p>The characters enclosed in brackets constitute a <em>character class</em>.  Any characters in <code>line</code> which are in that class are replaced with the second parameter to <code>sub</code>: an empty string.</p>
+
+<p>In Python 3, strings are Unicode. You'll have to translate a little differently. kevpie mentions this in a <a href=""https://stackoverflow.com/questions/3939361/remove-specific-characters-from-a-string-in-python#comment-4205256"">comment</a> on one of the answers, and it's noted in the <a href=""https://docs.python.org/2/library/stdtypes.html#str.translate"" rel=""noreferrer"">documentation for <code>str.translate</code></a>.</p>
+
+<p>When calling the <code>translate</code> method of a Unicode string, you cannot pass the second parameter that we used above. You also can't pass <code>None</code> as the first parameter, or even a translation table from <code>string.maketrans</code>. Instead, you pass a dictionary as the only parameter. This dictionary maps the <em>ordinal values</em> of characters (i.e. the result of calling <a href=""https://docs.python.org/2/library/functions.html#ord"" rel=""noreferrer""><code>ord</code></a> on them) to the ordinal values of the characters which should replace them, or—usefully to us—<code>None</code> to indicate that they should be deleted.</p>
+
+<p>So to do the above dance with a Unicode string you would call something like</p>
+
+<pre><code>translation_table = dict.fromkeys(map(ord, '!@#$'), None)
+unicode_line = unicode_line.translate(translation_table)
+</code></pre>
+
+<p>Here <a href=""https://docs.python.org/2/library/stdtypes.html#dict.fromkeys"" rel=""noreferrer""><code>dict.fromkeys</code></a> and <a href=""https://docs.python.org/2/library/functions.html#map"" rel=""noreferrer""><code>map</code></a> are used to succinctly generate a dictionary containing</p>
+
+<pre><code>{ord('!'): None, ord('@'): None, ...}
+</code></pre>
+
+<p>Even simpler, as <a href=""https://stackoverflow.com/questions/23175809/typeerror-translate-takes-one-argument-2-given-python"">another answer puts it</a>, create the dictionary in place:</p>
+
+<pre><code>unicode_line = unicode_line.translate({ord(c): None for c in '!@#$'})
+</code></pre>
+
+<hr>
+
+<p>*   for compatibility with earlier Pythons, you can create a ""null"" translation table to pass in place of <code>None</code>:</p>
+
+<pre><code>import string
+line = line.translate(string.maketrans('', ''), '!@#$')
+</code></pre>
+
+<p>Here <a href=""https://docs.python.org/2/library/string.html#string.maketrans"" rel=""noreferrer""><code>string.maketrans</code></a> is used to create a <em>translation table</em>, which is just a string containing the characters with ordinal values 0 to 255.</p>
+","3939381"
+"How do I install a Python package with a .whl file?","737073","","<p>I'm having trouble installing a Python package (specifically, JPype1 0.5.7) on my Windows machine, and would like to install it with Christoph Gohlke's Window binaries. (Which, to my experience, alleviated much of the fuss for many other package installations.)</p>
+
+<p>However, while Christoph used to provide .exe files in the past, recently it seems he's uploading .whl files instead.</p>
+
+<p><a href=""http://www.lfd.uci.edu/~gohlke/pythonlibs/#jpype"" rel=""noreferrer"">http://www.lfd.uci.edu/~gohlke/pythonlibs/#jpype</a></p>
+
+<p>But how do I install .whl files?</p>
+
+<blockquote>
+  <p>Notes:</p>
+  
+  <ul>
+  <li>I've found <a href=""https://wheel.readthedocs.org/en/latest/"" rel=""noreferrer"">documents on wheel</a>, but they don't seem so staightforward in explaining how to install .whl files.</li>
+  <li>This question is a duplicate with <a href=""https://stackoverflow.com/questions/27041264/how-to-install-whl-file-in-python-windows"">this question</a>, which wasn't directly answered.</li>
+  </ul>
+</blockquote>
+","<p>I just used the following which was quite simple. First open a console then cd to where you've downloaded your file like some-package.whl and use</p>
+
+<pre><code>pip install some-package.whl
+</code></pre>
+
+<p>Note: if pip.exe is not recognized, you may find it in the ""Scripts"" directory from where python has been installed. If pip is not installed, this page can help:
+<a href=""https://stackoverflow.com/questions/4750806/how-to-install-pip-on-windows"">How do I install pip on Windows?</a></p>
+
+<p><em>Note: for clarification</em><br>
+If you copy the <code>*.whl</code> file to your local drive (ex. <strong>C:\some-dir\some-file.whl</strong>) use the following command line parameters --  </p>
+
+<pre><code>pip install C:/some-dir/some-file.whl
+</code></pre>
+","27909082"
+"Save plot to image file instead of displaying it using Matplotlib","731905","","<p>I am writing a quick-and-dirty script to generate plots on the fly. I am using the code below (from <a href=""http://en.wikipedia.org/wiki/Matplotlib"" rel=""noreferrer"">Matplotlib</a> documentation) as a starting point:</p>
+
+<pre><code>from pylab import figure, axes, pie, title, show
+
+# Make a square figure and axes
+figure(1, figsize=(6, 6))
+ax = axes([0.1, 0.1, 0.8, 0.8])
+
+labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
+fracs = [15, 30, 45, 10]
+
+explode = (0, 0.05, 0, 0)
+pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
+title('Raining Hogs and Dogs', bbox={'facecolor': '0.8', 'pad': 5})
+
+show()  # Actually, don't show, just save to foo.png
+</code></pre>
+
+<p>I don't want to display the plot on a GUI, instead, I want to save the plot to a file (say foo.png), so that, for example, it can be used in batch scripts. How do I do that?</p>
+","<p>While the question has been answered, I'd like to add some useful tips when using <a href=""http://matplotlib.sourceforge.net/api/pyplot_api.html#matplotlib.pyplot.savefig"" rel=""noreferrer"">savefig</a>. The file format can be specified by the extension:</p>
+
+<pre><code>savefig('foo.png')
+savefig('foo.pdf')
+</code></pre>
+
+<p>Will give a rasterized or vectorized output respectively, both which could be useful. In addition, you'll find that <code>pylab</code> leaves a generous, often undesirable, whitespace around the image. Remove it with:</p>
+
+<pre><code>savefig('foo.png', bbox_inches='tight')
+</code></pre>
+","9890599"
+"How can I get a list of locally installed Python modules?","727164","","<p>I would like to get a list of Python modules, which are in my Python installation (UNIX server).</p>
+
+<p><strong>How can you get a list of Python modules installed in your computer?</strong></p>
+","<h2>Solution</h2>
+
+<p>My 50 cents for getting a <code>pip freeze</code>-like list from a Python script:</p>
+
+<pre class=""lang-python prettyprint-override""><code>import pip
+installed_packages = pip.get_installed_distributions()
+installed_packages_list = sorted([""%s==%s"" % (i.key, i.version)
+     for i in installed_packages])
+print(installed_packages_list)
+</code></pre>
+
+<p>As a (too long) one liner:</p>
+
+<pre class=""lang-python prettyprint-override""><code>sorted([""%s==%s"" % (i.key, i.version) for i in pip.get_installed_distributions()])
+</code></pre>
+
+<p>Giving:</p>
+
+<pre class=""lang-js prettyprint-override""><code>['behave==1.2.4', 'enum34==1.0', 'flask==0.10.1', 'itsdangerous==0.24', 
+ 'jinja2==2.7.2', 'jsonschema==2.3.0', 'markupsafe==0.23', 'nose==1.3.3', 
+ 'parse-type==0.3.4', 'parse==1.6.4', 'prettytable==0.7.2', 'requests==2.3.0',
+ 'six==1.6.1', 'vioozer-metadata==0.1', 'vioozer-users-server==0.1', 
+ 'werkzeug==0.9.4']
+</code></pre>
+
+<h2>Scope</h2>
+
+<p>This solution applies to the system scope or to a virtual environment scope, and covers packages installed by <code>setuptools</code>, <code>pip</code> and (<a href=""https://stackoverflow.com/questions/3220404/why-use-pip-over-easy-install"">god forbid</a>) <code>easy_install</code>.</p>
+
+<h2>My use case</h2>
+
+<p>I added the result of this call to my flask server, so when I call it with <code>http://example.com/exampleServer/environment</code> I get the list of packages installed on the server's virtualenv. It makes debugging a whole lot easier.</p>
+
+<h2>Caveats</h2>
+
+<p>I have noticed a strange behaviour of this technique - when the Python interpreter is invoked in the same directory as a <code>setup.py</code> file, it does not list the package installed by <code>setup.py</code>.</p>
+
+<h3>Steps to reproduce:</h3>
+
+Create a virtual environment
+
+<pre><code>$ cd /tmp
+$ virtualenv test_env
+New python executable in test_env/bin/python
+Installing setuptools, pip...done.
+$ source test_env/bin/activate
+(test_env) $ 
+</code></pre>
+
+Clone a git repo with <code>setup.py</code>
+
+<pre><code>(test_env) $ git clone https://github.com/behave/behave.git
+Cloning into 'behave'...
+remote: Reusing existing pack: 4350, done.
+remote: Total 4350 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (4350/4350), 1.85 MiB | 418.00 KiB/s, done.
+Resolving deltas: 100% (2388/2388), done.
+Checking connectivity... done.
+</code></pre>
+
+<p>We have behave's <code>setup.py</code> in <code>/tmp/behave</code>:</p>
+
+<pre><code>(test_env) $ ls /tmp/behave/setup.py
+/tmp/behave/setup.py
+</code></pre>
+
+Install the python package from the git repo
+
+<pre><code>(test_env) $ cd /tmp/behave &amp;&amp; python setup.py install
+running install
+...
+Installed /private/tmp/test_env/lib/python2.7/site-packages/enum34-1.0-py2.7.egg
+Finished processing dependencies for behave==1.2.5a1
+</code></pre>
+
+<h3>If we run the aforementioned solution from <code>/tmp</code></h3>
+
+<pre><code>&gt;&gt;&gt; import pip
+&gt;&gt;&gt; sorted([""%s==%s"" % (i.key, i.version) for i in pip.get_installed_distributions()])
+['behave==1.2.5a1', 'enum34==1.0', 'parse-type==0.3.4', 'parse==1.6.4', 'six==1.6.1']
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; os.getcwd()
+'/private/tmp'
+</code></pre>
+
+<h3>If we run the aforementioned solution from <code>/tmp/behave</code></h3>
+
+<pre><code>&gt;&gt;&gt; import pip
+&gt;&gt;&gt; sorted([""%s==%s"" % (i.key, i.version) for i in pip.get_installed_distributions()])
+['enum34==1.0', 'parse-type==0.3.4', 'parse==1.6.4', 'six==1.6.1']
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; os.getcwd()
+'/private/tmp/behave'
+</code></pre>
+
+<p><code>behave==1.2.5a1</code> is missing from the second example, because the working directory contains <code>behave</code>'s <code>setup.py</code> file.</p>
+
+<p>I could not find any reference to this issue in the documentation. Perhaps I shall open a bug for it.</p>
+","23885252"
